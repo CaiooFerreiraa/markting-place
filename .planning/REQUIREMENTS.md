@@ -126,16 +126,63 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| AUTH-01 - AUTH-05 | Phase 1 | Pending |
-| PROF-01 - PROF-05 | Phase 1 | Pending |
-| STOR-01 - STOR-05 | Phase 2 | Pending |
-| PROD-01 - PROD-09 | Phase 2 | Pending |
-| FILT-01 - FILT-06 | Phase 2 | Pending |
-| SEAR-01 - SEAR-05 | Phase 2 | Pending |
-| PROM-01 - PROM-04 | Phase 3 | Pending |
-| CHEC-01 - CHEC-08 | Phase 3 | Pending |
-| PAYM-01 - PAYM-05 | Phase 3 | Pending |
-| PLUG-01 - PLUG-05 | Phase 4 | Pending |
+| AUTH-01 | Phase 1 | Pending |
+| AUTH-02 | Phase 1 | Pending |
+| AUTH-03 | Phase 1 | Pending |
+| AUTH-04 | Phase 1 | Pending |
+| AUTH-05 | Phase 1 | Pending |
+| PROF-01 | Phase 1 | Pending |
+| PROF-02 | Phase 1 | Pending |
+| PROF-03 | Phase 1 | Pending |
+| PROF-04 | Phase 1 | Pending |
+| PROF-05 | Phase 1 | Pending |
+| STOR-01 | Phase 2 | Pending |
+| STOR-02 | Phase 2 | Pending |
+| STOR-03 | Phase 2 | Pending |
+| STOR-04 | Phase 2 | Pending |
+| STOR-05 | Phase 2 | Pending |
+| PROD-01 | Phase 2 | Pending |
+| PROD-02 | Phase 2 | Pending |
+| PROD-03 | Phase 2 | Pending |
+| PROD-04 | Phase 2 | Pending |
+| PROD-05 | Phase 2 | Pending |
+| PROD-06 | Phase 2 | Pending |
+| PROD-07 | Phase 2 | Pending |
+| PROD-08 | Phase 2 | Pending |
+| PROD-09 | Phase 2 | Pending |
+| FILT-01 | Phase 3 | Pending |
+| FILT-02 | Phase 3 | Pending |
+| FILT-03 | Phase 3 | Pending |
+| FILT-04 | Phase 3 | Pending |
+| FILT-05 | Phase 3 | Pending |
+| FILT-06 | Phase 3 | Pending |
+| SEAR-01 | Phase 3 | Pending |
+| SEAR-02 | Phase 3 | Pending |
+| SEAR-03 | Phase 3 | Pending |
+| SEAR-04 | Phase 3 | Pending |
+| SEAR-05 | Phase 3 | Pending |
+| CHEC-01 | Phase 4 | Pending |
+| CHEC-02 | Phase 4 | Pending |
+| CHEC-03 | Phase 4 | Pending |
+| CHEC-04 | Phase 4 | Pending |
+| CHEC-05 | Phase 4 | Pending |
+| CHEC-06 | Phase 4 | Pending |
+| CHEC-07 | Phase 4 | Pending |
+| CHEC-08 | Phase 4 | Pending |
+| PAYM-01 | Phase 5 | Pending |
+| PAYM-02 | Phase 5 | Pending |
+| PAYM-03 | Phase 5 | Pending |
+| PAYM-04 | Phase 5 | Pending |
+| PAYM-05 | Phase 5 | Pending |
+| PROM-01 | Phase 6 | Pending |
+| PROM-02 | Phase 6 | Pending |
+| PROM-03 | Phase 6 | Pending |
+| PROM-04 | Phase 6 | Pending |
+| PLUG-01 | Phase 6 | Pending |
+| PLUG-02 | Phase 6 | Pending |
+| PLUG-03 | Phase 6 | Pending |
+| PLUG-04 | Phase 6 | Pending |
+| PLUG-05 | Phase 6 | Pending |
 
 **Coverage:**
 - v1 requirements: 49 total
