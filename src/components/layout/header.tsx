@@ -44,7 +44,7 @@ export async function Header() {
                 {/* Links baseados no Role */}
                 {session.user.role === "ADMIN" && (
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard/admin/dashboard" className="cursor-pointer flex items-center">
+                    <Link href="/dashboard/admin" className="cursor-pointer flex items-center">
                       <LayoutDashboard className="mr-2 h-4 w-4" />
                       Painel Admin
                     </Link>
@@ -54,7 +54,7 @@ export async function Header() {
                 {session.user.role === "SELLER" && (
                   <>
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/seller/dashboard" className="cursor-pointer flex items-center">
+                      <Link href="/dashboard/seller" className="cursor-pointer flex items-center">
                         <LayoutDashboard className="mr-2 h-4 w-4" />
                         Painel do Vendedor
                       </Link>

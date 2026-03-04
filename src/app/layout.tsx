@@ -4,6 +4,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/layout/header";
 import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,7 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Toaster />
+        <Sonner position="top-right" expand={true} richColors />
       </body>
     </html>
   );
