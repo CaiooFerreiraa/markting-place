@@ -42,6 +42,8 @@ Progress: [▓▓▓▓▓▓▓░░░] 17%
 | Phase 01-authentication-user-profiles P03 | 45 min | 5 tasks | 6 files |
 | Phase 02-store-product-management P01 | 15m | 2 tasks | 3 files |
 | Phase 02-store-product-management P02 | 10m | 2 tasks | 3 files |
+| Phase 02-store-product-management P04 | 15m | 1 tasks | 3 files |
+| Phase 02-store-product-management P05 | 15m | 1 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -57,6 +59,8 @@ Recent decisions affecting current work:
 - [Phase 01-authentication-user-profiles]: Simplified role upgrade by only updating role in DB (full store setup deferred to Phase 2)
 - [Phase 02-store-product-management]: Used Decimal(10, 2) for price fields to ensure precision
 - [Phase 02-store-product-management]: Used JSON type for operatingHours and exceptions to allow flexible store schedules
+- [Phase 02-store-product-management]: Implemented URL-based store selection (searchParams.store) to enable deep linking and easy management
+- [Phase 02-store-product-management]: Implemented a find/create fallback for product subscriptions to ensure uniqueness without a unique constraint
 
 ### Pending Todos
 
