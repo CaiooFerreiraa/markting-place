@@ -12,12 +12,12 @@ export default async function BuyerOrdersPage() {
   if (!session?.user) redirect("/login");
 
   const orders = await db.order.findMany({
-    where: { buyerId: session.user.id },
+    where: { userId: session.user.id },
     include: {
       storeOrders: {
         include: {
           store: true,
-          items: {
+          orderItems: {
             include: { product: true }
           }
         }
@@ -76,7 +76,7 @@ export default async function BuyerOrdersPage() {
                     </div>
                     
                     <div className="space-y-4">
-                      {storeOrder.items.map((item) => (
+                      {storeOrder.orderItems.map((item) => (
                         <div key={item.id} className="flex justify-between items-center text-sm">
                           <div className="flex gap-4 items-center">
                             <div className="w-12 h-12 bg-muted rounded overflow-hidden flex-shrink-0">
@@ -86,7 +86,7 @@ export default async function BuyerOrdersPage() {
                             </div>
                             <span>{item.quantity}x {item.product.name}</span>
                           </div>
-                          <span className="font-medium">{formatCurrency(Number(item.price) * item.quantity)}</span>
+                          <span className="font-medium">{formatCurrency(Number(item.priceAtPurchase) * item.quantity)}</span>
                         </div>
                       ))}
                     </div>

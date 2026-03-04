@@ -13,7 +13,7 @@ export default async function SellerOrdersPage() {
 
   // Fetch the seller's store first
   const store = await db.store.findFirst({
-    where: { ownerId: session.user.id }
+    where: { userId: session.user.id }
   });
 
   if (!store) {
@@ -31,11 +31,11 @@ export default async function SellerOrdersPage() {
   const storeOrders = await db.storeOrder.findMany({
     where: { storeId: store.id },
     include: {
-      items: {
+      orderItems: {
         include: { product: true }
       },
       order: {
-        include: { buyer: true }
+        include: { user: true }
       }
     },
     orderBy: { createdAt: "desc" }
@@ -63,10 +63,10 @@ export default async function SellerOrdersPage() {
                     <Badge variant="outline" className="text-[10px] uppercase font-bold">{storeOrder.fulfillmentType}</Badge>
                     <Badge className="text-[10px] uppercase font-bold">{storeOrder.status}</Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">Cliente: {storeOrder.order.buyer.name || storeOrder.order.buyer.email}</p>
+                  <p className="text-xs text-muted-foreground mt-1">Cliente: {storeOrder.order.user.name || storeOrder.order.user.email}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm font-bold">{formatCurrency(Number(storeOrder.subtotal))}</p>
+                  <p className="text-sm font-bold">{formatCurrency(Number(storeOrder.subTotal))}</p>
                   <p className="text-[10px] text-muted-foreground font-medium uppercase mt-1">
                     {new Date(storeOrder.createdAt).toLocaleDateString("pt-BR")}
                   </p>
@@ -74,7 +74,7 @@ export default async function SellerOrdersPage() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {storeOrder.items.map((item) => (
+                  {storeOrder.orderItems.map((item) => (
                     <div key={item.id} className="flex justify-between items-center text-sm">
                       <div className="flex gap-4 items-center">
                         <div className="w-10 h-10 bg-muted rounded overflow-hidden flex-shrink-0">
@@ -84,7 +84,7 @@ export default async function SellerOrdersPage() {
                         </div>
                         <span className="font-medium text-gray-700">{item.quantity}x {item.product.name}</span>
                       </div>
-                      <span className="font-semibold">{formatCurrency(Number(item.price) * item.quantity)}</span>
+                      <span className="font-semibold">{formatCurrency(Number(item.priceAtPurchase) * item.quantity)}</span>
                     </div>
                   ))}
                 </div>

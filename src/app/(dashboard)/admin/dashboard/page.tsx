@@ -23,7 +23,7 @@ export default async function AdminDashboardPage() {
   const recentOrders = await db.order.findMany({
     take: 5,
     orderBy: { createdAt: "desc" },
-    include: { buyer: true }
+    include: { user: true }
   });
 
   return (
@@ -101,7 +101,7 @@ export default async function AdminDashboardPage() {
                 <div key={order.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border">
                   <div>
                     <p className="text-sm font-bold">Pedido #{order.id.slice(-6).toUpperCase()}</p>
-                    <p className="text-xs text-muted-foreground mt-1">Cliente: {order.buyer.name || order.buyer.email}</p>
+                    <p className="text-xs text-muted-foreground mt-1">Cliente: {order.user.name || order.user.email}</p>
                     <p className="text-[10px] text-muted-foreground uppercase font-medium mt-1">
                       {new Date(order.createdAt).toLocaleDateString("pt-BR")}
                     </p>

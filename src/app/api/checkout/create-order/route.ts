@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
       // Create main Order
       const newOrder = await tx.order.create({
         data: {
-          buyerId: session.user.id,
+          userId: session.user.id,
           totalAmount: totalOrderAmount,
           status: OrderStatus.PENDING,
           // Optional: Add shipping address if any delivery is selected
@@ -70,9 +70,10 @@ export async function POST(req: NextRequest) {
                 street: address.street,
                 city: address.city,
                 state: address.state,
-                zipCode: address.zipCode,
+                zip: address.zipCode,
                 number: address.number,
                 complement: address.complement,
+                district: address.district || "Centro", // Added missing field
               }
             }
           } : {})
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
           data: {
             orderId: newOrder.id,
             storeId,
-            subtotal: group.subtotal,
+            subTotal: group.subtotal,
             status: OrderStatus.PENDING,
             fulfillmentType: fulfillment,
           }
@@ -98,7 +99,7 @@ export async function POST(req: NextRequest) {
             storeOrderId: storeOrder.id,
             productId: item.productId,
             quantity: item.quantity,
-            price: item.price,
+            priceAtPurchase: item.price,
           }))
         });
       }
