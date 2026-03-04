@@ -65,20 +65,28 @@ export async function Header() {
                         Gerenciar Pedidos
                       </Link>
                     </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/seller/profile" className="cursor-pointer flex items-center">
+                        <User className="mr-2 h-4 w-4" />
+                        Perfil Vendedor
+                      </Link>
+                    </DropdownMenuItem>
                   </>
+                )}
+
+                {session.user.role === "BUYER" && (
+                  <DropdownMenuItem asChild>
+                    <Link href="/buyer/profile" className="cursor-pointer flex items-center">
+                      <User className="mr-2 h-4 w-4" />
+                      Meu Perfil
+                    </Link>
+                  </DropdownMenuItem>
                 )}
 
                 <DropdownMenuItem asChild>
                   <Link href="/buyer/orders" className="cursor-pointer flex items-center">
                     <ShoppingBag className="mr-2 h-4 w-4" />
                     Meus Pedidos
-                  </Link>
-                </DropdownMenuItem>
-
-                <DropdownMenuItem asChild>
-                  <Link href="/buyer/profile" className="cursor-pointer flex items-center">
-                    <User className="mr-2 h-4 w-4" />
-                    Meu Perfil
                   </Link>
                 </DropdownMenuItem>
 
