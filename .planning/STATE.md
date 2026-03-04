@@ -53,6 +53,7 @@ Progress: [▓▓▓▓▓▓▓▓▓▓] 100%
 | Phase 05 P04 | 25m | 2 tasks | 4 files |
 | Phase 07-verification-refinement P02 | 30m | 3 tasks | 4 files |
 | Phase 06-promotions-extensibility P06-01 | 45m | 3 tasks | 4 files |
+| Phase 06 P02 | 15m | 3 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -81,6 +82,7 @@ Recent decisions affecting current work:
 - [Phase 07]: Integrated Nominatim (OpenStreetMap) for geocoding in Store Wizard to provide better feedback without requiring Google Maps API keys for now.
 - [Phase 06-promotions-extensibility]: Centralize coupon validation logic in a service layer for reuse (e.g., in future order creation).
 - [Phase 06-promotions-extensibility]: Require authentication for coupon validation to prevent misuse.
+- [Phase 06]: Declarative Plugin Interface: interface with setup() method to allow plugins to register multiple hooks and perform internal initialization.
 
 ### Pending Todos
 

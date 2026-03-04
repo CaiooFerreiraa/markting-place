@@ -87,8 +87,8 @@
 ### Plugin System (Generic Supply)
 
 - [x] **PLUG-01**: System has plugin registry
-- [ ] **PLUG-02**: Plugins can be dynamically loaded
-- [ ] **PLUG-03**: Payment gateway integrations are pluggable
+- [x] **PLUG-02**: Plugins can be dynamically loaded
+- [x] **PLUG-03**: Payment gateway integrations are pluggable
 - [ ] **PLUG-04**: Shipping carrier integrations are pluggable
 - [ ] **PLUG-05**: System emits events for plugin hooks
 
@@ -179,8 +179,8 @@
 | PROM-03 | Phase 6 | Complete |
 | PROM-04 | Phase 6 | Pending |
 | PLUG-01 | Phase 6 | Complete |
-| PLUG-02 | Phase 6 | Pending |
-| PLUG-03 | Phase 6 | Pending |
+| PLUG-02 | Phase 6 | Complete |
+| PLUG-03 | Phase 6 | Complete |
 | PLUG-04 | Phase 6 | Pending |
 | PLUG-05 | Phase 6 | Pending |
 
