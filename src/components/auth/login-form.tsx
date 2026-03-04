@@ -8,6 +8,7 @@ import { z } from "zod"
 import Link from "next/link"
 import { Loader2 } from "lucide-react"
 import { signIn } from "next-auth/react"
+import { useEffect } from "react"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -46,19 +47,21 @@ export function LoginForm() {
   })
 
   // Show message on page load if present
-  if (message === "verify" && !isLoading) {
-    toast({
-      title: "Conta criada",
-      description: "Verifique seu email para confirmar sua conta",
-    })
-  }
+  useEffect(() => {
+    if (message === "verify") {
+      toast({
+        title: "Conta criada",
+        description: "Verifique seu email para confirmar sua conta",
+      })
+    }
 
-  if (verified === "true" && !isLoading) {
-    toast({
-      title: "Email verificado",
-      description: "Agora você pode fazer login",
-    })
-  }
+    if (verified === "true") {
+      toast({
+        title: "Email verificado",
+        description: "Agora você pode fazer login",
+      })
+    }
+  }, [message, verified, toast])
 
   async function onSubmit(data: LoginFormData) {
     setIsLoading(true)
