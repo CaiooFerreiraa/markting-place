@@ -35,6 +35,66 @@ model User {
   // Seller profile (Phase 1 - just store name, full details in Phase 2)
   storeName     String?
   storeVerified Boolean   @default(false)
+  stores        Store[]
+}
+
+model Store {
+  id             String    @id @default(cuid())
+  userId         String
+  user           User      @relation(fields: [userId], references: [id])
+  name           String
+  description    String?   @db.Text
+  slug           String    @unique
+  street         String
+  number         String
+  complement     String?
+  district       String
+  city           String
+  state          String
+  zip            String
+  lat            Float?
+  lng            Float?
+  phone          String?
+  email          String?
+  operatingHours Json?
+  exceptions     Json?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  products       Product[]
+}
+
+model Product {
+  id              String                @id @default(cuid())
+  storeId         String
+  store           Store                 @relation(fields: [storeId], references: [id])
+  name            String
+  description     String?               @db.Text
+  priceRetail     Decimal               @db.Decimal(10, 2)
+  priceWholesale  Decimal?              @db.Decimal(10, 2)
+  minWholesaleQty Int?
+  stock           Int                   @default(0)
+  images          String[]
+  categoryId      String
+  category        Category              @relation(fields: [categoryId], references: [id])
+  createdAt       DateTime              @default(now())
+  updatedAt       DateTime              @updatedAt
+  subscriptions   ProductSubscription[]
+}
+
+model Category {
+  id       String    @id @default(cuid())
+  name     String
+  slug     String    @unique
+  products Product[]
+}
+
+model ProductSubscription {
+  id        String   @id @default(cuid())
+  email     String
+  productId String
+  product   Product  @relation(fields: [productId], references: [id])
+  notified  Boolean  @default(false)
+  createdAt DateTime @default(now())
 }
 
 model Account {
