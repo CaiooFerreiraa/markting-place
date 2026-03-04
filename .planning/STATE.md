@@ -50,6 +50,7 @@ Progress: [▓▓▓▓▓▓▓░░░] 70%
 | Phase 04-checkout-delivery P01 | 20m | 2 tasks | 3 files |
 | Phase 05-payments-revenue P01 | 15m | 2 tasks | 2 files |
 | Phase 05-payments-revenue P03 | 20 | 2 tasks | 2 files |
+| Phase 05 P04 | 25m | 2 tasks | 4 files |
 
 ## Accumulated Context
 
