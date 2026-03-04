@@ -142,7 +142,13 @@
 4. Checkout integrates with payment processor
 5. Order payment status is tracked and visible
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+**Plan list:**
+- [ ] 05-01-PLAN.md — Payment Infrastructure (Schema & Stripe Client)
+- [ ] 05-02-PLAN.md — Seller Onboarding (Stripe Connect Express)
+- [ ] 05-03-PLAN.md — Transaction Processing (Checkout & Webhooks)
+- [ ] 05-04-PLAN.md — Subscription Management (Monthly Billing)
 
 ---
 
