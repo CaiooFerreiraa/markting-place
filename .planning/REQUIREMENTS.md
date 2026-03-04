@@ -43,11 +43,11 @@
 
 ### Categories & Filters
 
-- [ ] **FILT-01**: Products can be filtered by category
-- [ ] **FILT-02**: Products can be filtered by price range
-- [ ] **FILT-03**: Products can be filtered by product type
-- [ ] **FILT-04**: Products can be sorted by price
-- [ ] **FILT-05**: Products can be sorted by popularity
+- [x] **FILT-01**: Products can be filtered by category
+- [x] **FILT-02**: Products can be filtered by price range
+- [x] **FILT-03**: Products can be filtered by product type
+- [x] **FILT-04**: Products can be sorted by price
+- [x] **FILT-05**: Products can be sorted by popularity
 - [ ] **FILT-06**: Home page displays trending/popular items
 
 ### Search & SEO
@@ -150,11 +150,11 @@
 | PROD-07 | Phase 2 | Complete |
 | PROD-08 | Phase 2 | Complete |
 | PROD-09 | Phase 2 | Complete |
-| FILT-01 | Phase 3 | Pending |
-| FILT-02 | Phase 3 | Pending |
-| FILT-03 | Phase 3 | Pending |
-| FILT-04 | Phase 3 | Pending |
-| FILT-05 | Phase 3 | Pending |
+| FILT-01 | Phase 3 | Complete |
+| FILT-02 | Phase 3 | Complete |
+| FILT-03 | Phase 3 | Complete |
+| FILT-04 | Phase 3 | Complete |
+| FILT-05 | Phase 3 | Complete |
 | FILT-06 | Phase 3 | Pending |
 | SEAR-01 | Phase 3 | Complete |
 | SEAR-02 | Phase 3 | Complete |

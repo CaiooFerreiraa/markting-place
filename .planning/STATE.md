@@ -45,6 +45,7 @@ Progress: [▓▓▓▓▓▓▓░░░] 17%
 | Phase 02-store-product-management P04 | 15m | 1 tasks | 3 files |
 | Phase 02-store-product-management P05 | 15m | 1 tasks | 3 files |
 | Phase 03-discovery-search P01 | 15m | 2 tasks | 4 files |
+| Phase 03-discovery-search P02 | 45m | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -64,6 +65,9 @@ Recent decisions affecting current work:
 - [Phase 02-store-product-management]: Implemented a find/create fallback for product subscriptions to ensure uniqueness without a unique constraint
 - [Phase 03-discovery-search]: Use nuqs for URL-state synchronization to enable shareable search URLs
 - [Phase 03-discovery-search]: Enable fullTextSearchPostgres preview feature in Prisma for advanced search capabilities
+- [Phase 03-discovery-search]: Used debounced state for URL updates (500ms) to prevent excessive server requests during typing/filtering
+- [Phase 03-discovery-search]: Implemented case-insensitive contains search as a fallback/alternative to FTS for broader compatibility
+- [Phase 03-discovery-search]: Used nuqs createSearchParamsCache for efficient server-side parameter parsing in Server Components
 
 ### Pending Todos
 
