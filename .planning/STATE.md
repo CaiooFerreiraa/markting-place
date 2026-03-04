@@ -39,6 +39,7 @@ Progress: [▓▓▓▓▓▓▓░░░] 17%
 - Trend: N/A
 
 *Updated after each plan completion*
+| Phase 01-authentication-user-profiles P03 | 45 min | 5 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -50,6 +51,8 @@ Recent decisions affecting current work:
 - Phase structure derived from requirements analysis
 - Combined Promotions with Phase 6 (alongside Plugin System)
 - Checkout and Delivery kept together in Phase 4 for coherent workflow
+- [Phase 01-authentication-user-profiles]: Reused same profile update API for both Buyers and Sellers (conditional storeName update)
+- [Phase 01-authentication-user-profiles]: Simplified role upgrade by only updating role in DB (full store setup deferred to Phase 2)
 
 ### Pending Todos
 

@@ -15,11 +15,11 @@
 
 ### User Profiles
 
-- [ ] **PROF-01**: User can register as Buyer
-- [ ] **PROF-02**: User can register as Seller (with store info)
-- [ ] **PROF-03**: Admin can access admin dashboard
-- [ ] **PROF-04**: Seller can manage own store profile
-- [ ] **PROF-05**: Buyer can view and edit own profile
+- [x] **PROF-01**: User can register as Buyer
+- [x] **PROF-02**: User can register as Seller (with store info)
+- [x] **PROF-03**: Admin can access admin dashboard
+- [x] **PROF-04**: Seller can manage own store profile
+- [x] **PROF-05**: Buyer can view and edit own profile
 
 ### Store Management
 
@@ -131,11 +131,11 @@
 | AUTH-03 | Phase 1 | Pending |
 | AUTH-04 | Phase 1 | Pending |
 | AUTH-05 | Phase 1 | Pending |
-| PROF-01 | Phase 1 | Pending |
-| PROF-02 | Phase 1 | Pending |
-| PROF-03 | Phase 1 | Pending |
-| PROF-04 | Phase 1 | Pending |
-| PROF-05 | Phase 1 | Pending |
+| PROF-01 | Phase 1 | Complete |
+| PROF-02 | Phase 1 | Complete |
+| PROF-03 | Phase 1 | Complete |
+| PROF-04 | Phase 1 | Complete |
+| PROF-05 | Phase 1 | Complete |
 | STOR-01 | Phase 2 | Pending |
 | STOR-02 | Phase 2 | Pending |
 | STOR-03 | Phase 2 | Pending |
