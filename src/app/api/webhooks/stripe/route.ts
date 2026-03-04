@@ -3,6 +3,10 @@ import { NextResponse } from 'next/server';
 import { stripe } from '@/lib/stripe';
 import { db } from '@/lib/db';
 import Stripe from 'stripe';
+import { pluginRegistry } from '@/lib/plugins/registry';
+import { initPlugins } from '@/lib/plugins';
+
+initPlugins();
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -67,6 +71,9 @@ export async function POST(req: Request) {
           },
         }),
       ]);
+
+      // Emit event for plugins
+      await pluginRegistry.emit("order.paid", orderId);
     } catch (error: any) {
       console.error('[WEBHOOK_UPDATE_ERROR]', error);
       return new NextResponse('Error updating order', { status: 500 });

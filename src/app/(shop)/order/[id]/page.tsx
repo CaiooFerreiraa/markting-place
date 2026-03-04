@@ -10,6 +10,7 @@ interface OrderPageProps {
 }
 
 export default async function OrderPage({ params }: OrderPageProps) {
+  const { id } = await params;
   const session = await auth();
 
   if (!session?.user) {
@@ -18,7 +19,7 @@ export default async function OrderPage({ params }: OrderPageProps) {
 
   const order = await db.order.findUnique({
     where: {
-      id: params.id,
+      id,
       userId: session.user.id, // Security: Ensure buyer only sees their own orders
     },
     include: {

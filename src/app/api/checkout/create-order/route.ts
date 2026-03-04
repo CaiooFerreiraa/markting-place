@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { FulfillmentType, OrderStatus } from "@prisma/client";
+import { pluginRegistry } from "@/lib/plugins/registry";
+import { initPlugins } from "@/lib/plugins";
+
+// Initialize plugins once
+initPlugins();
 
 export async function POST(req: NextRequest) {
   try {
@@ -11,7 +16,7 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { items, fulfillmentChoices, address } = body;
+    const { items, fulfillmentChoices, address, appliedCoupons } = body;
 
     if (!items || items.length === 0) {
       return NextResponse.json({ error: "Cart is empty" }, { status: 400 });
@@ -84,11 +89,34 @@ export async function POST(req: NextRequest) {
       for (const [storeId, group] of Object.entries(storeGroups)) {
         const fulfillment = fulfillmentChoices?.[storeId] || FulfillmentType.PICKUP;
         
+        let storeDiscount = 0;
+        const storeCoupon = appliedCoupons?.find((c: any) => c.storeId === storeId);
+        
+        if (storeCoupon) {
+          const coupon = await tx.coupon.findUnique({
+            where: { id: storeCoupon.couponId, isActive: true }
+          });
+
+          if (coupon) {
+            if (coupon.discountPercent) {
+              storeDiscount = (group.subtotal * coupon.discountPercent) / 100;
+            } else if (coupon.discountFixed) {
+              storeDiscount = Math.min(Number(coupon.discountFixed), group.subtotal);
+            }
+
+            // Update usage count
+            await tx.coupon.update({
+              where: { id: coupon.id },
+              data: { usageCount: { increment: 1 } }
+            });
+          }
+        }
+
         const storeOrder = await tx.storeOrder.create({
           data: {
             orderId: newOrder.id,
             storeId,
-            subTotal: group.subtotal,
+            subTotal: group.subtotal - storeDiscount,
             status: OrderStatus.PENDING,
             fulfillmentType: fulfillment,
           }
@@ -106,6 +134,9 @@ export async function POST(req: NextRequest) {
 
       return newOrder;
     });
+
+    // Emit event for plugins
+    await pluginRegistry.emit("order.created", order);
 
     return NextResponse.json({ orderId: order.id }, { status: 201 });
 

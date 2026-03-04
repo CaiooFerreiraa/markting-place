@@ -5,33 +5,33 @@
 See: .planning/PROJECT.md (updated 2026-03-03)
 
 **Core value:** Conectar lojas físicas a clientes locais através de uma plataforma digital que oferece gestão completa de produtos, múltiplas opções de entrega (delivery ou retirada na loja), e integração com mapas para finder de lojas.
-**Current focus:** Phase 1: Authentication & User Profiles
+**Current focus:** Phase 6: Promotions & Extensibility
 
 ## Current Position
 
-Phase: 05 (Payments & Revenue)
-Plan: 02
-Status: Plan complete
-Last activity: 2026-03-04 — Plan 05-02 completed
+Phase: 06 (Promotions & Extensibility)
+Plan: 01
+Status: Not started
+Last activity: 2026-03-04 — Phase 04 & 05 stabilization completed
 
-Progress: [▓▓▓▓▓▓▓░░░] 70%
+Progress: [▓▓▓▓▓▓▓▓░░] 85%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 25 min
-- Total execution time: 0.4 hours
+- Total plans completed: 19
+- Average duration: 22 min
+- Total execution time: 7.0 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 1 - Auth & Profiles | 1 | 1 | 25 min |
-| 2 - Store & Products | 0 | - | - |
-| 3 - Discovery & Search | 0 | - | - |
-| 4 - Checkout & Delivery | 0 | - | - |
-| 5 - Payments & Revenue | 0 | - | - |
+| 1 - Auth & Profiles | 3 | 3 | 25 min |
+| 2 - Store & Products | 5 | 5 | 15 min |
+| 3 - Discovery & Search | 3 | 3 | 25 min |
+| 4 - Checkout & Delivery | 4 | 4 | 20 min |
+| 5 - Payments & Revenue | 4 | 4 | 20 min |
 | 6 - Promotions & Extensibility | 0 | - | - |
 
 **Recent Trend:**

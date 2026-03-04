@@ -11,6 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/components/ui/toast-hooks";
 import { formatCurrency } from "@/lib/utils";
 import { FulfillmentSelector } from "@/components/checkout/fulfillment-selector";
+import { CouponInput } from "@/components/checkout/coupon-input";
 import { ArrowLeft, Loader2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -25,6 +26,7 @@ export default function CheckoutPage() {
   const [loading, setLoading] = useState(false);
   const [orderComplete, setOrderComplete] = useState<string | null>(null);
 
+  const [appliedCoupons, setAppliedCoupons] = useState<Record<string, any>>({});
   const [fulfillmentChoices, setFulfillmentChoices] = useState<Record<string, FulfillmentType>>({});
   const [address, setAddress] = useState({
     street: "",
@@ -58,6 +60,33 @@ export default function CheckoutPage() {
     setAddress(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  const handleApplyCoupon = (storeId: string, coupon: any) => {
+    setAppliedCoupons(prev => ({ ...prev, [storeId]: coupon }));
+  };
+
+  const handleRemoveCoupon = (storeId: string) => {
+    setAppliedCoupons(prev => {
+      const newCoupons = { ...prev };
+      delete newCoupons[storeId];
+      return newCoupons;
+    });
+  };
+
+  const calculateStoreDiscount = (storeId: string, subtotal: number) => {
+    const coupon = appliedCoupons[storeId];
+    if (!coupon) return 0;
+
+    if (coupon.discountPercent) {
+      return (subtotal * coupon.discountPercent) / 100;
+    }
+
+    if (coupon.discountFixed) {
+      return Math.min(Number(coupon.discountFixed), subtotal);
+    }
+
+    return 0;
+  };
+
   const isDeliveryRequired = Object.values(fulfillmentChoices).some(v => v === FulfillmentType.DELIVERY);
 
   const handleSubmit = async () => {
@@ -80,6 +109,11 @@ export default function CheckoutPage() {
           items: items.map(i => ({ id: i.id, quantity: i.quantity })),
           fulfillmentChoices,
           address: isDeliveryRequired ? address : null,
+          appliedCoupons: Object.keys(appliedCoupons).map(storeId => ({
+            storeId,
+            couponId: appliedCoupons[storeId].id,
+            code: appliedCoupons[storeId].code
+          }))
         }),
       });
 
@@ -226,7 +260,7 @@ export default function CheckoutPage() {
                   {groupedItems.map((group) => (
                     <div key={group.storeId} className="mb-6 last:mb-0">
                       <p className="text-[10px] font-bold text-muted-foreground uppercase mb-2 tracking-tight">
-                        Loja: {group.storeName}
+                         Loja: {group.storeName}
                       </p>
                       <div className="space-y-2">
                         {group.items.map((item) => (
@@ -236,6 +270,25 @@ export default function CheckoutPage() {
                           </div>
                         ))}
                       </div>
+                      
+                      <div className="mt-4">
+                        <CouponInput 
+                          storeId={group.storeId} 
+                          storeName={group.storeName}
+                          subtotal={group.items.reduce((acc, item) => acc + item.price * item.quantity, 0)}
+                          appliedCoupon={appliedCoupons[group.storeId]}
+                          onApply={(coupon) => handleApplyCoupon(group.storeId, coupon)}
+                          onRemove={() => handleRemoveCoupon(group.storeId)}
+                        />
+                      </div>
+
+                      {appliedCoupons[group.storeId] && (
+                        <div className="flex justify-between text-xs text-green-600 font-bold mt-2">
+                          <span>Desconto ({appliedCoupons[group.storeId].code})</span>
+                          <span>-{formatCurrency(calculateStoreDiscount(group.storeId, group.items.reduce((acc, item) => acc + item.price * item.quantity, 0)))}</span>
+                        </div>
+                      )}
+
                       <Separator className="mt-4" />
                     </div>
                   ))}
@@ -246,6 +299,19 @@ export default function CheckoutPage() {
                     <span>Subtotal</span>
                     <span>{formatCurrency(totalPrice)}</span>
                   </div>
+                  {Object.keys(appliedCoupons).length > 0 && (
+                    <div className="flex justify-between text-sm text-green-600 font-medium">
+                      <span>Total Descontos</span>
+                      <span>-{formatCurrency(
+                        Object.keys(appliedCoupons).reduce((acc, storeId) => {
+                          const group = groupedItems.find(g => g.storeId === storeId);
+                          if (!group) return acc;
+                          const subtotal = group.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                          return acc + calculateStoreDiscount(storeId, subtotal);
+                        }, 0)
+                      )}</span>
+                    </div>
+                  )}
                   <div className="flex justify-between text-sm text-muted-foreground">
                     <span>Taxa de entrega</span>
                     <span className="text-green-600 font-medium">Grátis</span>
@@ -253,7 +319,14 @@ export default function CheckoutPage() {
                   <Separator />
                   <div className="flex justify-between text-xl font-bold pt-2">
                     <span>Total</span>
-                    <span>{formatCurrency(totalPrice)}</span>
+                    <span>{formatCurrency(
+                      totalPrice - Object.keys(appliedCoupons).reduce((acc, storeId) => {
+                        const group = groupedItems.find(g => g.storeId === storeId);
+                        if (!group) return acc;
+                        const subtotal = group.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                        return acc + calculateStoreDiscount(storeId, subtotal);
+                      }, 0)
+                    )}</span>
                   </div>
                 </div>
 

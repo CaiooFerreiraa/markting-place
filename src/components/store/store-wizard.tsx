@@ -75,7 +75,7 @@ export function StoreWizard() {
     <div className="bg-white p-6 rounded-lg shadow">
       <div className="mb-8 flex justify-between">
         {[1, 2, 3].map((s) => (
-          <div key={s} className={}>
+          <div key={s} className={`p-2 border-b-2 ${step === s ? "border-blue-500 font-bold" : "border-transparent text-gray-500"}`}>
             Step {s}: {s === 1 ? "Basic Info" : s === 2 ? "Location" : "Contact & Hours"}
           </div>
         ))}
