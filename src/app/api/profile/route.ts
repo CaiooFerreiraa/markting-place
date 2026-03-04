@@ -5,6 +5,7 @@ import { z } from "zod"
 
 const profileUpdateSchema = z.object({
   name: z.string().min(2, "O nome deve ter pelo menos 2 caracteres").max(100),
+  storeName: z.string().max(100).optional().nullable(),
 })
 
 export async function GET() {
@@ -45,11 +46,15 @@ export async function PATCH(req: Request) {
     }
 
     const body = await req.json()
-    const { name } = profileUpdateSchema.parse(body)
+    const { name, storeName } = profileUpdateSchema.parse(body)
 
     const updatedUser = await db.user.update({
       where: { id: session.user.id },
-      data: { name },
+      data: { 
+        name,
+        // Only allow updating storeName if user is SELLER
+        ...(session.user.role === "SELLER" ? { storeName } : {})
+      },
       select: {
         id: true,
         name: true,
