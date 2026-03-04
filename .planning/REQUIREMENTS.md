@@ -67,14 +67,14 @@
 
 ### Checkout & Delivery
 
-- [ ] **CHEC-01**: Buyer can add products to cart
+- [x] **CHEC-01**: Buyer can add products to cart
 - [ ] **CHEC-02**: Buyer can view cart
 - [ ] **CHEC-03**: Buyer can select delivery or pickup at store
 - [ ] **CHEC-04**: If pickup selected, store map is displayed
 - [ ] **CHEC-05**: Buyer can generate route to store (Waze/Google Maps)
 - [ ] **CHEC-06**: Buyer can initiate navigation to store
 - [ ] **CHEC-07**: Delivery address can be entered
-- [ ] **CHEC-08**: Order is created with delivery or pickup status
+- [x] **CHEC-08**: Order is created with delivery or pickup status
 
 ### Payments
 
@@ -161,14 +161,14 @@
 | SEAR-03 | Phase 3 | Complete |
 | SEAR-04 | Phase 3 | Complete |
 | SEAR-05 | Phase 3 | Complete |
-| CHEC-01 | Phase 4 | Pending |
+| CHEC-01 | Phase 4 | Complete |
 | CHEC-02 | Phase 4 | Pending |
 | CHEC-03 | Phase 4 | Pending |
 | CHEC-04 | Phase 4 | Pending |
 | CHEC-05 | Phase 4 | Pending |
 | CHEC-06 | Phase 4 | Pending |
 | CHEC-07 | Phase 4 | Pending |
-| CHEC-08 | Phase 4 | Pending |
+| CHEC-08 | Phase 4 | Complete |
 | PAYM-01 | Phase 5 | Pending |
 | PAYM-02 | Phase 5 | Pending |
 | PAYM-03 | Phase 5 | Pending |
