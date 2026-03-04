@@ -92,7 +92,12 @@
 10. Sitemap is auto-generated for search engines
 11. Product pages include structured data (JSON-LD)
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+**Plan list:**
+- [ ] 03-01-PLAN.md — Phase 3 Tech Foundation (Prisma FTS & Search State)
+- [ ] 03-02-PLAN.md — Search Results Page (Filters & Sorting)
+- [ ] 03-03-PLAN.md — SEO & Sitemap Implementation
 
 ---
 
