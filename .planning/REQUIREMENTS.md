@@ -78,9 +78,9 @@
 
 ### Payments
 
-- [ ] **PAYM-01**: Platform supports transaction fee model
-- [ ] **PAYM-02**: Platform supports monthly subscription model
-- [ ] **PAYM-03**: Seller can choose payment model
+- [x] **PAYM-01**: Platform supports transaction fee model
+- [x] **PAYM-02**: Platform supports monthly subscription model
+- [x] **PAYM-03**: Seller can choose payment model
 - [ ] **PAYM-04**: Checkout integrates payment processor
 - [ ] **PAYM-05**: Order payment status is tracked
 
@@ -169,9 +169,9 @@
 | CHEC-06 | Phase 4 | Pending |
 | CHEC-07 | Phase 4 | Pending |
 | CHEC-08 | Phase 4 | Complete |
-| PAYM-01 | Phase 5 | Pending |
-| PAYM-02 | Phase 5 | Pending |
-| PAYM-03 | Phase 5 | Pending |
+| PAYM-01 | Phase 5 | Complete |
+| PAYM-02 | Phase 5 | Complete |
+| PAYM-03 | Phase 5 | Complete |
 | PAYM-04 | Phase 5 | Pending |
 | PAYM-05 | Phase 5 | Pending |
 | PROM-01 | Phase 6 | Pending |
