@@ -38,6 +38,12 @@ model User {
   storeVerified Boolean   @default(false)
   stores        Store[]
   orders        Order[]
+
+  // Stripe fields (Phase 5)
+  stripeAccountId    String?
+  stripeCustomerId   String?
+  subscriptionStatus String?
+  revenueModel       String  @default("TRANSACTION_FEE")
 }
 
 model Store {
