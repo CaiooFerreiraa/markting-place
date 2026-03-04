@@ -27,6 +27,24 @@ export async function POST(req: Request) {
   const session = event.data.object as Stripe.Checkout.Session;
 
   if (event.type === 'checkout.session.completed') {
+    const userId = session.metadata?.userId;
+    const type = session.metadata?.type;
+
+    if (type === 'subscription' && userId) {
+      try {
+        await db.user.update({
+          where: { id: userId },
+          data: {
+            subscriptionStatus: 'ACTIVE',
+          },
+        });
+        return new NextResponse(null, { status: 200 });
+      } catch (error: any) {
+        console.error('[WEBHOOK_SUBSCRIPTION_UPDATE_ERROR]', error);
+        return new NextResponse('Error updating user subscription', { status: 500 });
+      }
+    }
+
     const orderId = session.metadata?.orderId;
 
     if (!orderId) {
