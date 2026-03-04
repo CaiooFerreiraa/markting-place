@@ -23,7 +23,7 @@
 
 ### Store Management
 
-- [ ] **STOR-01**: Seller can create store with name, description, address
+- [x] **STOR-01**: Seller can create store with name, description, address
 - [ ] **STOR-02**: Seller can add store contact information (phone, email)
 - [ ] **STOR-03**: Seller can set store operating hours
 - [ ] **STOR-04**: Store address is geocoded for map display
@@ -31,15 +31,15 @@
 
 ### Product Catalog
 
-- [ ] **PROD-01**: Seller can create products with name, description, price
+- [x] **PROD-01**: Seller can create products with name, description, price
 - [ ] **PROD-02**: Seller can upload product images
 - [ ] **PROD-03**: Seller can set product category
 - [ ] **PROD-04**: Seller can set product stock quantity
-- [ ] **PROD-05**: Product can have wholesale (atacado) price tier
+- [x] **PROD-05**: Product can have wholesale (atacado) price tier
 - [ ] **PROD-06**: Product can have retail (varejo) price
 - [ ] **PROD-07**: Seller can edit own products
 - [ ] **PROD-08**: Seller can delete own products
-- [ ] **PROD-09**: Products display on store page
+- [x] **PROD-09**: Products display on store page
 
 ### Categories & Filters
 
@@ -136,20 +136,20 @@
 | PROF-03 | Phase 1 | Complete |
 | PROF-04 | Phase 1 | Complete |
 | PROF-05 | Phase 1 | Complete |
-| STOR-01 | Phase 2 | Pending |
+| STOR-01 | Phase 2 | Complete |
 | STOR-02 | Phase 2 | Pending |
 | STOR-03 | Phase 2 | Pending |
 | STOR-04 | Phase 2 | Pending |
 | STOR-05 | Phase 2 | Pending |
-| PROD-01 | Phase 2 | Pending |
+| PROD-01 | Phase 2 | Complete |
 | PROD-02 | Phase 2 | Pending |
 | PROD-03 | Phase 2 | Pending |
 | PROD-04 | Phase 2 | Pending |
-| PROD-05 | Phase 2 | Pending |
+| PROD-05 | Phase 2 | Complete |
 | PROD-06 | Phase 2 | Pending |
 | PROD-07 | Phase 2 | Pending |
 | PROD-08 | Phase 2 | Pending |
-| PROD-09 | Phase 2 | Pending |
+| PROD-09 | Phase 2 | Complete |
 | FILT-01 | Phase 3 | Pending |
 | FILT-02 | Phase 3 | Pending |
 | FILT-03 | Phase 3 | Pending |

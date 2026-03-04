@@ -40,6 +40,7 @@ Progress: [▓▓▓▓▓▓▓░░░] 17%
 
 *Updated after each plan completion*
 | Phase 01-authentication-user-profiles P03 | 45 min | 5 tasks | 6 files |
+| Phase 02-store-product-management P01 | 15m | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -53,6 +54,8 @@ Recent decisions affecting current work:
 - Checkout and Delivery kept together in Phase 4 for coherent workflow
 - [Phase 01-authentication-user-profiles]: Reused same profile update API for both Buyers and Sellers (conditional storeName update)
 - [Phase 01-authentication-user-profiles]: Simplified role upgrade by only updating role in DB (full store setup deferred to Phase 2)
+- [Phase 02-store-product-management]: Used Decimal(10, 2) for price fields to ensure precision
+- [Phase 02-store-product-management]: Used JSON type for operatingHours and exceptions to allow flexible store schedules
 
 ### Pending Todos
 
