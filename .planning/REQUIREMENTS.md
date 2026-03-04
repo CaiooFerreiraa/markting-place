@@ -26,19 +26,19 @@
 - [x] **STOR-01**: Seller can create store with name, description, address
 - [ ] **STOR-02**: Seller can add store contact information (phone, email)
 - [ ] **STOR-03**: Seller can set store operating hours
-- [ ] **STOR-04**: Store address is geocoded for map display
-- [ ] **STOR-05**: Store can be found via map locator
+- [x] **STOR-04**: Store address is geocoded for map display
+- [x] **STOR-05**: Store can be found via map locator
 
 ### Product Catalog
 
 - [x] **PROD-01**: Seller can create products with name, description, price
-- [ ] **PROD-02**: Seller can upload product images
-- [ ] **PROD-03**: Seller can set product category
-- [ ] **PROD-04**: Seller can set product stock quantity
+- [x] **PROD-02**: Seller can upload product images
+- [x] **PROD-03**: Seller can set product category
+- [x] **PROD-04**: Seller can set product stock quantity
 - [x] **PROD-05**: Product can have wholesale (atacado) price tier
-- [ ] **PROD-06**: Product can have retail (varejo) price
-- [ ] **PROD-07**: Seller can edit own products
-- [ ] **PROD-08**: Seller can delete own products
+- [x] **PROD-06**: Product can have retail (varejo) price
+- [x] **PROD-07**: Seller can edit own products
+- [x] **PROD-08**: Seller can delete own products
 - [x] **PROD-09**: Products display on store page
 
 ### Categories & Filters
@@ -139,16 +139,16 @@
 | STOR-01 | Phase 2 | Complete |
 | STOR-02 | Phase 2 | Pending |
 | STOR-03 | Phase 2 | Pending |
-| STOR-04 | Phase 2 | Pending |
-| STOR-05 | Phase 2 | Pending |
+| STOR-04 | Phase 2 | Complete |
+| STOR-05 | Phase 2 | Complete |
 | PROD-01 | Phase 2 | Complete |
-| PROD-02 | Phase 2 | Pending |
-| PROD-03 | Phase 2 | Pending |
-| PROD-04 | Phase 2 | Pending |
+| PROD-02 | Phase 2 | Complete |
+| PROD-03 | Phase 2 | Complete |
+| PROD-04 | Phase 2 | Complete |
 | PROD-05 | Phase 2 | Complete |
-| PROD-06 | Phase 2 | Pending |
-| PROD-07 | Phase 2 | Pending |
-| PROD-08 | Phase 2 | Pending |
+| PROD-06 | Phase 2 | Complete |
+| PROD-07 | Phase 2 | Complete |
+| PROD-08 | Phase 2 | Complete |
 | PROD-09 | Phase 2 | Complete |
 | FILT-01 | Phase 3 | Pending |
 | FILT-02 | Phase 3 | Pending |
