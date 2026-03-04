@@ -4,6 +4,11 @@ import { SearchParams } from "nuqs/server";
 import { FilterSidebar } from "@/components/discovery/filter-sidebar";
 import { SortDropdown } from "@/components/discovery/sort-dropdown";
 import { Prisma } from "@prisma/client";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Store, Tag, FilterX } from "lucide-react";
+import Link from "next/link";
+import { formatCurrency } from "@/lib/utils";
 
 interface SearchPageProps {
   searchParams: Promise<SearchParams>;
@@ -67,39 +72,63 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           </div>
 
           {products.length === 0 ? (
-            <div className="text-center py-20 border rounded-lg bg-muted/20">
-              <p className="text-lg text-muted-foreground">Nenhum produto encontrado com os filtros selecionados.</p>
+            <div className="flex flex-col items-center justify-center py-24 px-6 border-2 border-dashed rounded-xl bg-muted/30">
+              <div className="h-16 w-16 rounded-full bg-muted flex items-center justify-center mb-4">
+                <FilterX className="h-8 w-8 text-muted-foreground" />
+              </div>
+              <h3 className="text-xl font-semibold text-foreground mb-2">Ops! Nada por aqui.</h3>
+              <p className="text-muted-foreground text-center max-w-sm">
+                Não encontramos produtos que correspondam à sua busca. Tente ajustar os filtros ou pesquisar por outro termo.
+              </p>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => (
-                <div key={product.id} className="border rounded-lg overflow-hidden group">
-                  <div className="aspect-square bg-muted relative">
-                    {product.images[0] ? (
-                      <img 
-                        src={product.images[0]} 
-                        alt={product.name}
-                        className="object-cover w-full h-full"
-                      />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-muted-foreground">
-                        Sem imagem
+                <Link 
+                  key={product.id} 
+                  href={`/product/${product.id}`}
+                  className="group block"
+                >
+                  <Card className="overflow-hidden border-muted hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full flex flex-col">
+                    <div className="aspect-square bg-muted relative overflow-hidden">
+                      {product.images[0] ? (
+                        <img 
+                          src={product.images[0]} 
+                          alt={product.name}
+                          className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-muted-foreground">
+                          Sem imagem
+                        </div>
+                      )}
+                      <div className="absolute top-2 right-2">
+                        <Badge variant="secondary" className="bg-background/80 backdrop-blur-md border-none font-medium">
+                          {product.category.name}
+                        </Badge>
                       </div>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold truncate">{product.name}</h3>
-                    <p className="text-sm text-muted-foreground truncate">{product.store.name}</p>
-                    <div className="mt-2 flex items-center justify-between">
-                      <span className="font-bold">
-                        R$ {Number(product.priceRetail).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                      </span>
-                      <span className="text-xs px-2 py-1 bg-primary/10 text-primary rounded">
-                        {product.category.name}
-                      </span>
                     </div>
-                  </div>
-                </div>
+                    <CardContent className="p-4 flex-1 flex flex-col justify-between">
+                      <div>
+                        <h3 className="font-bold text-lg leading-tight group-hover:text-primary transition-colors line-clamp-2 mb-1">
+                          {product.name}
+                        </h3>
+                        <div className="flex items-center text-sm text-muted-foreground mb-4">
+                          <Store className="h-3 w-3 mr-1" />
+                          <span className="truncate">{product.store.name}</span>
+                        </div>
+                      </div>
+                      <div className="flex items-center justify-between mt-auto pt-2">
+                        <span className="text-xl font-extrabold text-primary">
+                          {formatCurrency(Number(product.priceRetail))}
+                        </span>
+                        <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
+                          <Tag className="h-4 w-4" />
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
               ))}
             </div>
           )}

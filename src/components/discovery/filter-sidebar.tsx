@@ -6,10 +6,10 @@ import { Category } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useDebounce } from '@/hooks/use-debounce';
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
 
 interface FilterSidebarProps {
   categories: Category[];
@@ -62,23 +62,30 @@ export function FilterSidebar({ categories }: FilterSidebarProps) {
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-sm font-medium">Categorias</h3>
-        <ScrollArea className="h-[200px] border rounded-md p-2">
-          <div className="space-y-2">
+        <h3 className="text-sm font-semibold flex items-center gap-2">
+          Categorias
+          {category && (
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+          )}
+        </h3>
+        <ScrollArea className="h-[250px] pr-4">
+          <div className="space-y-1">
             {categories.map((c) => (
-              <div key={c.id} className="flex items-center space-x-2">
-                <Checkbox 
-                  id={`cat-${c.id}`} 
-                  checked={category === c.slug}
-                  onCheckedChange={() => toggleCategory(c.slug)}
-                />
-                <Label 
-                  htmlFor={`cat-${c.id}`}
-                  className="text-sm font-normal cursor-pointer select-none truncate"
-                >
-                  {c.name}
-                </Label>
-              </div>
+              <button
+                key={c.id}
+                onClick={() => toggleCategory(c.slug)}
+                className={cn(
+                  "w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-200 group flex items-center justify-between",
+                  category === c.slug 
+                    ? "bg-primary text-primary-foreground font-medium shadow-sm" 
+                    : "hover:bg-muted text-muted-foreground hover:text-foreground"
+                )}
+              >
+                <span className="truncate">{c.name}</span>
+                {category === c.slug && (
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground" />
+                )}
+              </button>
             ))}
           </div>
         </ScrollArea>
