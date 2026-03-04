@@ -1,12 +1,13 @@
 import { pluginRegistry } from "./registry";
+import { sendSellerNotification } from "./notifications";
 
 /**
- * Example Plugin: Sends a mock notification to the Seller when a new order is paid.
+ * Real Notification Plugin: Sends an email log to the Seller when a new order is paid.
  */
 export function registerSellerNotificationPlugin() {
   pluginRegistry.register("order.paid", async (orderId: string) => {
-    console.log(`[NotificationPlugin] Order ${orderId} has been PAID! Sending notification to seller...`);
-    // Here we would integrate with Resend or a push notification service.
+    console.log(`[NotificationPlugin] Order ${orderId} has been PAID! Notifying sellers...`);
+    await sendSellerNotification(orderId);
   });
 }
 
