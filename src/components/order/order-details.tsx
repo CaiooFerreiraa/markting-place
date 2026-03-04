@@ -3,7 +3,15 @@ import { Order, StoreOrder, OrderItem, Product, Store, ShippingAddress, OrderSta
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { CheckCircle2, Package, Truck, Store as StoreIcon, MapPin, Calendar, Clock } from "lucide-react";
+import { CheckCircle2, Package, Truck, Store as StoreIcon, MapPin, Calendar, Clock, Map as MapIcon } from "lucide-react";
+import dynamic from "next/dynamic";
+import { NavLinks } from "./nav-links";
+
+// Dynamically import Leaflet to avoid SSR issues
+const OrderMap = dynamic(() => import("./order-map"), {
+  ssr: false,
+  loading: () => <div className="h-[300px] w-full bg-muted animate-pulse rounded-lg" />
+});
 
 interface OrderDetailsProps {
   order: Order & {
@@ -85,27 +93,48 @@ export function OrderDetails({ order }: OrderDetailsProps) {
 
                 <div className="p-4 bg-muted/20 border-t space-y-4">
                   {storeOrder.fulfillmentType === FulfillmentType.PICKUP ? (
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2 text-sm">
-                        <MapPin className="h-4 w-4 mt-0.5 text-muted-foreground" />
-                        <div>
-                          <p className="font-medium">Local de Retirada:</p>
-                          <p className="text-muted-foreground">
-                            {storeOrder.store.street}, {storeOrder.store.number}
-                            {storeOrder.store.complement && ` - ${storeOrder.store.complement}`}
-                            <br />
-                            {storeOrder.store.district}, {storeOrder.store.city} - {storeOrder.store.state}
-                          </p>
-                        </div>
-                      </div>
-                      {storeOrder.store.operatingHours && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
                         <div className="flex items-start gap-2 text-sm">
-                          <Clock className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                          <MapPin className="h-4 w-4 mt-0.5 text-muted-foreground" />
                           <div>
-                            <p className="font-medium">Horário de Funcionamento:</p>
-                            <p className="text-muted-foreground">Consulte o horário da loja para retirada.</p>
+                            <p className="font-medium">Local de Retirada:</p>
+                            <p className="text-muted-foreground">
+                              {storeOrder.store.street}, {storeOrder.store.number}
+                              {storeOrder.store.complement && ` - ${storeOrder.store.complement}`}
+                              <br />
+                              {storeOrder.store.district}, {storeOrder.store.city} - {storeOrder.store.state}
+                            </p>
                           </div>
                         </div>
+
+                        {storeOrder.store.lat && storeOrder.store.lng && (
+                          <div className="flex items-start gap-2 text-sm">
+                            <MapIcon className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                            <div className="w-full">
+                              <p className="font-medium">Navegação:</p>
+                              <NavLinks 
+                                lat={Number(storeOrder.store.lat)} 
+                                lng={Number(storeOrder.store.lng)} 
+                                label={storeOrder.store.name} 
+                              />
+                            </div>
+                          </div>
+                        )}
+
+                        {storeOrder.store.operatingHours && (
+                          <div className="flex items-start gap-2 text-sm">
+                            <Clock className="h-4 w-4 mt-0.5 text-muted-foreground" />
+                            <div>
+                              <p className="font-medium">Horário de Funcionamento:</p>
+                              <p className="text-muted-foreground">Consulte o horário da loja para retirada.</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {storeOrder.store.lat && storeOrder.store.lng && (
+                        <OrderMap stores={[storeOrder.store]} />
                       )}
                     </div>
                   ) : (
