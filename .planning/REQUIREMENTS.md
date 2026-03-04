@@ -55,8 +55,8 @@
 - [x] **SEAR-01**: Users can search products by name
 - [x] **SEAR-02**: Search results are SEO-friendly URLs
 - [x] **SEAR-03**: Each product page has unique meta tags
-- [ ] **SEAR-04**: Sitemap is auto-generated
-- [ ] **SEAR-05**: Structured data (JSON-LD) for products
+- [x] **SEAR-04**: Sitemap is auto-generated
+- [x] **SEAR-05**: Structured data (JSON-LD) for products
 
 ### Promotions
 
@@ -159,8 +159,8 @@
 | SEAR-01 | Phase 3 | Complete |
 | SEAR-02 | Phase 3 | Complete |
 | SEAR-03 | Phase 3 | Complete |
-| SEAR-04 | Phase 3 | Pending |
-| SEAR-05 | Phase 3 | Pending |
+| SEAR-04 | Phase 3 | Complete |
+| SEAR-05 | Phase 3 | Complete |
 | CHEC-01 | Phase 4 | Pending |
 | CHEC-02 | Phase 4 | Pending |
 | CHEC-03 | Phase 4 | Pending |
