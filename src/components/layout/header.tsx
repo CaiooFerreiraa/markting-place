@@ -44,7 +44,7 @@ export async function Header() {
                 {/* Links baseados no Role */}
                 {session.user.role === "ADMIN" && (
                   <DropdownMenuItem asChild>
-                    <Link href="/dashboard/admin" className="cursor-pointer flex items-center">
+                    <Link href="/admin" className="cursor-pointer flex items-center">
                       <LayoutDashboard className="mr-2 h-4 w-4" />
                       Painel Admin
                     </Link>
@@ -54,13 +54,13 @@ export async function Header() {
                 {session.user.role === "SELLER" && (
                   <>
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/seller" className="cursor-pointer flex items-center">
+                      <Link href="/seller" className="cursor-pointer flex items-center">
                         <LayoutDashboard className="mr-2 h-4 w-4" />
                         Painel do Vendedor
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/seller/orders" className="cursor-pointer flex items-center">
+                      <Link href="/seller/orders" className="cursor-pointer flex items-center">
                         <ShoppingBag className="mr-2 h-4 w-4" />
                         Gerenciar Pedidos
                       </Link>
@@ -69,14 +69,14 @@ export async function Header() {
                 )}
 
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/buyer/orders" className="cursor-pointer flex items-center">
+                  <Link href="/buyer/orders" className="cursor-pointer flex items-center">
                     <ShoppingBag className="mr-2 h-4 w-4" />
                     Meus Pedidos
                   </Link>
                 </DropdownMenuItem>
 
                 <DropdownMenuItem asChild>
-                  <Link href="/dashboard/buyer/profile" className="cursor-pointer flex items-center">
+                  <Link href="/buyer/profile" className="cursor-pointer flex items-center">
                     <User className="mr-2 h-4 w-4" />
                     Meu Perfil
                   </Link>
