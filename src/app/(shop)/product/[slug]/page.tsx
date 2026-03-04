@@ -2,6 +2,11 @@ import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { ProductJsonLd } from "@/components/seo/json-ld";
+import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { formatCurrency } from "@/lib/utils";
+import Image from "next/image";
+import Link from "next/link";
+import { Store } from "@prisma/client";
 
 interface ProductPageProps {
   params: Promise<{
@@ -75,16 +80,58 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="container mx-auto py-8 px-4">
       <ProductJsonLd product={product} />
-      <h1 className="text-3xl font-bold">{product.name}</h1>
-      <p className="mt-4 text-gray-600">{product.description}</p>
-      <div className="mt-8">
-        <p className="text-2xl font-semibold">
-          R$ {product.priceRetail.toString()}
-        </p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
+          {product.images?.[0] ? (
+            <Image
+              src={product.images[0]}
+              alt={product.name}
+              fill
+              className="object-cover"
+              priority
+            />
+          ) : (
+            <div className="flex h-full items-center justify-center text-muted-foreground">
+              Sem foto
+            </div>
+          )}
+        </div>
+
+        <div className="flex flex-col">
+          <Link
+            href={`/stores/${product.store.slug}`}
+            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+          >
+            {product.store.name}
+          </Link>
+          <h1 className="text-4xl font-bold mt-2">{product.name}</h1>
+          <p className="mt-6 text-lg text-muted-foreground leading-relaxed">
+            {product.description}
+          </p>
+          
+          <div className="mt-auto pt-8 border-t">
+            <div className="flex items-baseline gap-4 mb-6">
+              <span className="text-3xl font-bold text-primary">
+                {formatCurrency(Number(product.priceRetail))}
+              </span>
+              <span className="text-sm text-muted-foreground">no varejo</span>
+            </div>
+
+            <AddToCartButton
+              product={product}
+              store={{
+                id: product.store.id,
+                name: product.store.name,
+                slug: product.store.slug,
+              }}
+              className="w-full sm:w-auto px-12 py-6 text-lg"
+            />
+          </div>
+        </div>
       </div>
-      {/* Product content will be expanded in later phases */}
     </div>
   );
 }
