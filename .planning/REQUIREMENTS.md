@@ -81,8 +81,8 @@
 - [x] **PAYM-01**: Platform supports transaction fee model
 - [x] **PAYM-02**: Platform supports monthly subscription model
 - [x] **PAYM-03**: Seller can choose payment model
-- [ ] **PAYM-04**: Checkout integrates payment processor
-- [ ] **PAYM-05**: Order payment status is tracked
+- [x] **PAYM-04**: Checkout integrates payment processor
+- [x] **PAYM-05**: Order payment status is tracked
 
 ### Plugin System (Generic Supply)
 
@@ -172,8 +172,8 @@
 | PAYM-01 | Phase 5 | Complete |
 | PAYM-02 | Phase 5 | Complete |
 | PAYM-03 | Phase 5 | Complete |
-| PAYM-04 | Phase 5 | Pending |
-| PAYM-05 | Phase 5 | Pending |
+| PAYM-04 | Phase 5 | Complete |
+| PAYM-05 | Phase 5 | Complete |
 | PROM-01 | Phase 6 | Pending |
 | PROM-02 | Phase 6 | Pending |
 | PROM-03 | Phase 6 | Pending |

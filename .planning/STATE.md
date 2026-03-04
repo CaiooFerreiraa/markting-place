@@ -49,6 +49,7 @@ Progress: [▓▓▓▓▓▓▓░░░] 70%
 | Phase 03-discovery-search P03 | 15m | 2 tasks | 3 files |
 | Phase 04-checkout-delivery P01 | 20m | 2 tasks | 3 files |
 | Phase 05-payments-revenue P01 | 15m | 2 tasks | 2 files |
+| Phase 05-payments-revenue P03 | 20 | 2 tasks | 2 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,7 @@ Recent decisions affecting current work:
 - [Phase 03-discovery-search]: Implemented case-insensitive contains search as a fallback/alternative to FTS for broader compatibility
 - [Phase 03-discovery-search]: Used nuqs createSearchParamsCache for efficient server-side parameter parsing in Server Components
 - [Phase 05-payments-revenue]: Initialize Stripe client with apiVersion 2025-01-27.acacia and User schema fields for Stripe accounts/customers
+- [Phase 05-payments-revenue]: Commission rate hardcoded at 10% (PAYM-01) for this phase.
 
 ### Pending Todos
 
