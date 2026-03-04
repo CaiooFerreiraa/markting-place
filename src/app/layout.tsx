@@ -15,6 +15,7 @@ export const metadata: Metadata = {
 };
 
 import { NuqsAdapter } from "nuqs/adapters/next/app";
+import { ErrorBoundary } from "@/components/ui/error-boundary";
 
 export default function RootLayout({
   children,
@@ -27,7 +28,9 @@ export default function RootLayout({
         <AuthProvider>
           <NuqsAdapter>
             <Header />
-            <main>{children}</main>
+            <ErrorBoundary name="GlobalLayout">
+              <main>{children}</main>
+            </ErrorBoundary>
             <Toaster />
             <Sonner position="top-right" expand={true} richColors />
           </NuqsAdapter>
