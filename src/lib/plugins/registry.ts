@@ -1,10 +1,4 @@
-export type HookName = 
-  | "order.created" 
-  | "order.paid" 
-  | "product.created" 
-  | "shipping.calculate";
-
-export type PluginHandler<T = any> = (payload: T) => Promise<void | any>;
+import { HookName, PluginHandler } from "./types";
 
 class PluginRegistry {
   private hooks: Map<HookName, PluginHandler[]> = new Map();
