@@ -1,6 +1,7 @@
 import { db } from "@/lib/db";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { ProductJsonLd } from "@/components/seo/json-ld";
 
 interface ProductPageProps {
   params: Promise<{
@@ -75,6 +76,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="container mx-auto py-8">
+      <ProductJsonLd product={product} />
       <h1 className="text-3xl font-bold">{product.name}</h1>
       <p className="mt-4 text-gray-600">{product.description}</p>
       <div className="mt-8">
