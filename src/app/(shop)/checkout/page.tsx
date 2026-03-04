@@ -96,6 +96,11 @@ export default function CheckoutPage() {
         description: "Seu pedido foi processado com sucesso.",
       });
 
+      // Redirect to the order details page after a short delay
+      setTimeout(() => {
+        router.push(`/order/${data.orderId}`);
+      }, 2000);
+
     } catch (error: any) {
       toast({
         title: "Erro no checkout",
