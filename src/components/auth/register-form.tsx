@@ -92,7 +92,8 @@ export function RegisterForm() {
         <CardDescription>
           Preencha os dados abaixo para se registrar
         </CardDescription>
-       <CardContent>
+      </CardHeader>
+      <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <label htmlFor="name" className="text-sm font-medium">
