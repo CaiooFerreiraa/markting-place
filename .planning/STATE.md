@@ -44,6 +44,7 @@ Progress: [▓▓▓▓▓▓▓░░░] 17%
 | Phase 02-store-product-management P02 | 10m | 2 tasks | 3 files |
 | Phase 02-store-product-management P04 | 15m | 1 tasks | 3 files |
 | Phase 02-store-product-management P05 | 15m | 1 tasks | 3 files |
+| Phase 03-discovery-search P01 | 15m | 2 tasks | 4 files |
 
 ## Accumulated Context
 
@@ -61,6 +62,8 @@ Recent decisions affecting current work:
 - [Phase 02-store-product-management]: Used JSON type for operatingHours and exceptions to allow flexible store schedules
 - [Phase 02-store-product-management]: Implemented URL-based store selection (searchParams.store) to enable deep linking and easy management
 - [Phase 02-store-product-management]: Implemented a find/create fallback for product subscriptions to ensure uniqueness without a unique constraint
+- [Phase 03-discovery-search]: Use nuqs for URL-state synchronization to enable shareable search URLs
+- [Phase 03-discovery-search]: Enable fullTextSearchPostgres preview feature in Prisma for advanced search capabilities
 
 ### Pending Todos
 
