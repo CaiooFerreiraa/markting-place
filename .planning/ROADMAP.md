@@ -61,7 +61,14 @@
 11. Products display correctly on store page
 12. Seller can edit and delete own products
 
-**Plans:** TBD
+**Plans:** 5 plans
+
+**Plan list:**
+- [ ] 02-01-PLAN.md — Phase 2 Data Foundation (Models & Types)
+- [ ] 02-02-PLAN.md — Store Creation Wizard (Multi-step + Leaflet)
+- [ ] 02-03-PLAN.md — Product Management (Wizard + Image Processing)
+- [ ] 02-04-PLAN.md — Seller Dashboard Assembly (Store & Product Lists)
+- [ ] 02-05-PLAN.md — Back-in-stock Notifications (API & UI)
 
 ---
 
