@@ -5,7 +5,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Authentication & User Profiles** - User registration, login, role management
+- [x] **Phase 1: Authentication & User Profiles** - User registration, login, role management
 - [ ] **Phase 2: Store & Product Management** - Store creation, product catalog, inventory
 - [ ] **Phase 3: Discovery & Search** - Categories, filters, search, SEO
 - [ ] **Phase 4: Checkout & Delivery** - Cart, delivery/pickup options, store locator, routing
@@ -34,7 +34,7 @@
 **Plans:** 3 plans
 
 **Plan list:**
-- [ ] 01-01-PLAN.md — Project Foundation (Next.js, Prisma, NextAuth)
+- [x] 01-01-PLAN.md — Project Foundation (Next.js, Prisma, NextAuth)
 - [ ] 01-02-PLAN.md — Authentication Core (Register, Login, Logout, Email, Password Reset)
 - [ ] 01-03-PLAN.md — User Profiles & Role Dashboards
 
@@ -154,7 +154,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Authentication & User Profiles | 0/3 | Not started | - |
+| 1. Authentication & User Profiles | 1/3 | In progress | 2026-03-03 |
 | 2. Store & Product Management | 0/1 | Not started | - |
 | 3. Discovery & Search | 0/1 | Not started | - |
 | 4. Checkout & Delivery | 0/1 | Not started | - |
