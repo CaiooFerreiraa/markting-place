@@ -9,12 +9,13 @@ const registerSchema = z.object({
   name: z.string().min(2),
   email: z.string().email(),
   password: z.string().min(8),
+  role: z.enum(["BUYER", "SELLER"]).optional().default("BUYER"),
 })
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { name, email, password } = registerSchema.parse(body)
+    const { name, email, password, role } = registerSchema.parse(body)
 
     // Check if user already exists
     const existingUser = await db.user.findUnique({
@@ -31,13 +32,13 @@ export async function POST(req: NextRequest) {
     // Hash password
     const hashedPassword = await hash(password, 12)
 
-    // Create user with BUYER role (default per CONTEXT.md)
+    // Create user with specific role
     const user = await db.user.create({
       data: {
         name,
         email,
         password: hashedPassword,
-        role: "BUYER",
+        role: role,
       },
     })
 

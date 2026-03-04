@@ -24,6 +24,7 @@ const registerSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
   confirmPassword: z.string(),
+  role: z.enum(["BUYER", "SELLER"]).default("BUYER"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "As senhas não coincidem",
   path: ["confirmPassword"],
@@ -31,7 +32,11 @@ const registerSchema = z.object({
 
 type RegisterFormData = z.infer<typeof registerSchema>
 
-export function RegisterForm() {
+interface RegisterFormProps {
+  role?: "BUYER" | "SELLER"
+}
+
+export function RegisterForm({ role = "BUYER" }: RegisterFormProps) {
   const router = useRouter()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
@@ -42,6 +47,9 @@ export function RegisterForm() {
     formState: { errors },
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
+    defaultValues: {
+      role: role,
+    }
   })
 
   async function onSubmit(data: RegisterFormData) {
@@ -55,6 +63,7 @@ export function RegisterForm() {
           name: data.name,
           email: data.email,
           password: data.password,
+          role: data.role,
         }),
       })
 
@@ -88,13 +97,16 @@ export function RegisterForm() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Criar conta</CardTitle>
+        <CardTitle>Criar conta {role === "SELLER" ? "de Vendedor" : "de Comprador"}</CardTitle>
         <CardDescription>
-          Preencha os dados abaixo para se registrar
+          {role === "SELLER" 
+            ? "Comece a vender seus produtos hoje mesmo" 
+            : "Encontre os melhores produtos perto de você"}
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <input type="hidden" {...register("role")} />
           <div className="space-y-2">
             <label htmlFor="name" className="text-sm font-medium">
               Nome
