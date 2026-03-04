@@ -7,6 +7,8 @@ import Link from "next/link"
 import { StoreList } from "@/components/seller/store-list"
 import { ProductList } from "@/components/seller/product-list"
 import { Button } from "@/components/ui/button"
+import { SubscriptionCard } from "@/components/dashboard/seller/subscription-card"
+import { PaymentSetup } from "@/components/dashboard/seller/payment-setup"
 
 export default async function SellerDashboardPage({
   searchParams,
@@ -18,6 +20,15 @@ export default async function SellerDashboardPage({
   if (!session?.user || session.user.role !== "SELLER") {
     redirect("/")
   }
+
+  const user = await db.user.findUnique({
+    where: { id: session.user.id },
+    select: {
+      stripeAccountId: true,
+      subscriptionStatus: true,
+      revenueModel: true,
+    }
+  })
 
   const stores = await db.store.findMany({
     where: { userId: session.user.id },
@@ -108,6 +119,14 @@ export default async function SellerDashboardPage({
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-8">
         <div className="col-span-3 space-y-4">
+          <SubscriptionCard 
+            subscriptionStatus={user?.subscriptionStatus || null} 
+            revenueModel={user?.revenueModel || "TRANSACTION_FEE"} 
+          />
+          <PaymentSetup 
+            stripeAccountId={user?.stripeAccountId || null} 
+            chargesEnabled={!!user?.stripeAccountId} 
+          />
           <h3 className="text-xl font-semibold">Minhas Lojas</h3>
           <StoreList stores={stores as any} />
         </div>
