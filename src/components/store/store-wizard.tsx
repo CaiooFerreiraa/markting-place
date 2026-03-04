@@ -19,6 +19,7 @@ const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLa
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
 
 import "leaflet/dist/leaflet.css";
+import L from "leaflet";
 
 export function StoreWizard() {
   const [step, setStep] = useQueryState("step", parseAsInteger.withDefault(1));

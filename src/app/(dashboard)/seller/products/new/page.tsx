@@ -1,5 +1,5 @@
 import { ProductWizard } from "@/components/product/product-wizard";
-import { prisma } from "@/lib/prisma";
+import { db as prisma } from "@/lib/db";
 
 export default async function NewProductPage() {
   const categories = await prisma.category.findMany();

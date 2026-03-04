@@ -1,7 +1,12 @@
 import { searchParamsParsers } from '@/lib/search-params';
-import { InferSerializerFullType } from 'nuqs/server';
 
-export type SearchFilters = InferSerializerFullType<typeof searchParamsParsers>;
+export type SearchFilters = {
+  q: string;
+  category: string;
+  minPrice: number | null;
+  maxPrice: number | null;
+  sort: string;
+};
 
 export interface SearchResult<T> {
   data: T[];

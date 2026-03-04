@@ -1,3 +1,5 @@
+"use client";
+
 import { formatCurrency } from "@/lib/utils";
 import { Order, StoreOrder, OrderItem, Product, Store, ShippingAddress, OrderStatus, FulfillmentType } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";

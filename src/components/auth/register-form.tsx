@@ -24,10 +24,7 @@ const registerSchema = z.object({
   email: z.string().email("Email inválido"),
   password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
   confirmPassword: z.string(),
-  role: z.enum(["BUYER", "SELLER"]).default("BUYER"),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "As senhas não coincidem",
-  path: ["confirmPassword"],
+  role: z.enum(["BUYER", "SELLER"]),
 })
 
 type RegisterFormData = z.infer<typeof registerSchema>

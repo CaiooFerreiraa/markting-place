@@ -25,15 +25,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/components/ui/toast-hooks";
 import { Loader2, Plus, X, ArrowLeft, ArrowRight, Save } from "lucide-react";
 
 const productSchema = z.object({
   name: z.string().min(3, "O nome deve ter pelo menos 3 caracteres"),
   description: z.string().optional(),
-  categoryId: z.string({
-    required_error: "Selecione uma categoria",
-  }),
+  categoryId: z.string().min(1, "Selecione uma categoria"),
   priceRetail: z.string().regex(/^\d+(\.\d{1,2})?$/, "Preço inválido"),
   priceWholesale: z.string().regex(/^\d+(\.\d{1,2})?$/, "Preço inválido").optional().or(z.literal("")),
   minWholesaleQty: z.string().regex(/^\d+$/, "Quantidade inválida").optional().or(z.literal("")),
