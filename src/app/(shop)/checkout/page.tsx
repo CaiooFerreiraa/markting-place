@@ -171,8 +171,14 @@ export default function CheckoutPage() {
   if (items.length === 0) {
     return (
       <div className="container max-w-2xl mx-auto py-20 px-4 text-center">
-        <h1 className="text-2xl font-bold mb-4">Seu carrinho está vazio</h1>
-        <Button asChild>
+        <div className="mb-8">
+          <div className="bg-muted w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+            <ArrowLeft className="h-10 w-10 text-muted-foreground" />
+          </div>
+          <h1 className="text-3xl font-bold mb-2">Seu carrinho está vazio</h1>
+          <p className="text-muted-foreground">Adicione produtos ao seu carrinho para continuar com o checkout.</p>
+        </div>
+        <Button asChild size="lg">
           <Link href="/search">Ir para a loja</Link>
         </Button>
       </div>
