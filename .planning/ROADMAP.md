@@ -118,7 +118,13 @@
 7. Buyer can enter delivery address for shipping
 8. Order is created with correct delivery or pickup status
 
-**Plans:** TBD
+**Plans:** 4 plans
+
+**Plan list:**
+- [ ] 04-01-PLAN.md — Phase 4 Data Foundation (Orders & Sub-orders)
+- [ ] 04-02-PLAN.md — Shopping Cart with Store Grouping & Persistence
+- [ ] 04-03-PLAN.md — Checkout Flow & Multi-vendor Order Processing
+- [ ] 04-04-PLAN.md — Order Confirmation & Navigation Interface
 
 ---
 
