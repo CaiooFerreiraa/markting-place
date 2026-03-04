@@ -14,6 +14,7 @@ import { FulfillmentSelector } from "@/components/checkout/fulfillment-selector"
 import { ArrowLeft, Loader2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function CheckoutPage() {
   const router = useRouter();
