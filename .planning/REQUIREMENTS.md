@@ -60,9 +60,9 @@
 
 ### Promotions
 
-- [ ] **PROM-01**: Seller can create discount promotions
+- [x] **PROM-01**: Seller can create discount promotions
 - [ ] **PROM-02**: Promotions have start and end dates
-- [ ] **PROM-03**: Promotions display on product pages
+- [x] **PROM-03**: Promotions display on product pages
 - [ ] **PROM-04**: Promotions tab shows active deals
 
 ### Checkout & Delivery
@@ -174,9 +174,9 @@
 | PAYM-03 | Phase 5 | Complete |
 | PAYM-04 | Phase 5 | Complete |
 | PAYM-05 | Phase 5 | Complete |
-| PROM-01 | Phase 6 | Pending |
+| PROM-01 | Phase 6 | Complete |
 | PROM-02 | Phase 6 | Pending |
-| PROM-03 | Phase 6 | Pending |
+| PROM-03 | Phase 6 | Complete |
 | PROM-04 | Phase 6 | Pending |
 | PLUG-01 | Phase 6 | Complete |
 | PLUG-02 | Phase 6 | Pending |
