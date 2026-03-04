@@ -31,7 +31,12 @@
 7. Admin can access admin dashboard after registration
 8. Seller can update own store profile information
 
-**Plans:** TBD
+**Plans:** 3 plans
+
+**Plan list:**
+- [ ] 01-01-PLAN.md — Project Foundation (Next.js, Prisma, NextAuth)
+- [ ] 01-02-PLAN.md — Authentication Core (Register, Login, Logout, Email, Password Reset)
+- [ ] 01-03-PLAN.md — User Profiles & Role Dashboards
 
 ---
 
@@ -149,7 +154,7 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Authentication & User Profiles | 0/1 | Not started | - |
+| 1. Authentication & User Profiles | 0/3 | Not started | - |
 | 2. Store & Product Management | 0/1 | Not started | - |
 | 3. Discovery & Search | 0/1 | Not started | - |
 | 4. Checkout & Delivery | 0/1 | Not started | - |
