@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { MoreHorizontal, Pencil, Plus, Trash } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
+import { StockNotifier } from "@/components/product/stock-notifier"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -101,6 +102,11 @@ export function ProductList({ products, storeId }: ProductListProps) {
                   Ver detalhes
                 </Link>
               </div>
+              {outOfStock && (
+                <div className="mt-4 pt-4 border-t">
+                  <StockNotifier productId={product.id} productName={product.name} />
+                </div>
+              )}
             </CardContent>
           </Card>
         )
