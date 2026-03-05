@@ -42,7 +42,7 @@ export default async function BuyerOrdersPage() {
         </Card>
       ) : (
         <div className="space-y-6">
-          {orders.map((order) => (
+          {orders.map((order: any) => (
             <Card key={order.id} className="overflow-hidden">
               <CardHeader className="bg-muted/50 border-b flex flex-row items-center justify-between py-4">
                 <div className="flex gap-6 text-sm">
@@ -61,7 +61,7 @@ export default async function BuyerOrdersPage() {
                 </div>
               </CardHeader>
               <CardContent className="p-0">
-                {order.storeOrders.map((storeOrder) => (
+                {order.storeOrders.map((storeOrder: any) => (
                   <div key={storeOrder.id} className="border-b last:border-0 p-6">
                     <div className="flex flex-col sm:flex-row justify-between gap-4 mb-4">
                       <div>
@@ -74,9 +74,9 @@ export default async function BuyerOrdersPage() {
                         </div>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-4">
-                      {storeOrder.orderItems.map((item) => (
+                      {storeOrder.orderItems.map((item: any) => (
                         <div key={item.id} className="flex justify-between items-center text-sm">
                           <div className="flex gap-4 items-center">
                             <div className="w-12 h-12 bg-muted rounded overflow-hidden flex-shrink-0">

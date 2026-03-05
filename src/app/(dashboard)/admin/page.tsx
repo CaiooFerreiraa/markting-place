@@ -97,7 +97,7 @@ export default async function AdminDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="space-y-6">
-              {recentOrders.map((order) => (
+              {recentOrders.map((order: any) => (
                 <div key={order.id} className="flex items-center justify-between p-4 rounded-lg bg-muted/30 border">
                   <div>
                     <p className="text-sm font-bold">Pedido #{order.id.slice(-6).toUpperCase()}</p>
