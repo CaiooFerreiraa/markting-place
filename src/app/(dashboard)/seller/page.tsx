@@ -40,16 +40,16 @@ export default async function SellerDashboardPage({
   })
 
   const selectedStoreId = searchParams.store || stores[0]?.id
-  const selectedStore = stores.find(s => s.id === selectedStoreId)
+  const selectedStore = stores.find((s: any) => s.id === selectedStoreId)
 
-  const products = selectedStoreId 
+  const products = selectedStoreId
     ? await db.product.findMany({
-        where: { storeId: selectedStoreId },
-        orderBy: { createdAt: 'desc' }
-      })
+      where: { storeId: selectedStoreId },
+      orderBy: { createdAt: 'desc' }
+    })
     : []
 
-  const totalProducts = stores.reduce((acc, store) => acc + store._count.products, 0)
+  const totalProducts = stores.reduce((acc: any, store: any) => acc + store._count.products, 0)
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -70,7 +70,7 @@ export default async function SellerDashboardPage({
           </Button>
         </div>
       </div>
-      
+
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -82,7 +82,7 @@ export default async function SellerDashboardPage({
             <p className="text-xs text-muted-foreground">Unidades gerenciadas</p>
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total de Produtos</CardTitle>
@@ -119,13 +119,13 @@ export default async function SellerDashboardPage({
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-8">
         <div className="col-span-3 space-y-4">
-          <SubscriptionCard 
-            subscriptionStatus={user?.subscriptionStatus || null} 
-            revenueModel={user?.revenueModel || "TRANSACTION_FEE"} 
+          <SubscriptionCard
+            subscriptionStatus={user?.subscriptionStatus || null}
+            revenueModel={user?.revenueModel || "TRANSACTION_FEE"}
           />
-          <PaymentSetup 
-            stripeAccountId={user?.stripeAccountId || null} 
-            chargesEnabled={!!user?.stripeAccountId} 
+          <PaymentSetup
+            stripeAccountId={user?.stripeAccountId || null}
+            chargesEnabled={!!user?.stripeAccountId}
           />
           <h3 className="text-xl font-semibold">Minhas Lojas</h3>
           <StoreList stores={stores as any} />
