@@ -51,7 +51,7 @@ export default async function SellerCouponsPage() {
             </CardContent>
           </Card>
         ) : (
-          coupons.map((coupon) => (
+          coupons.map((coupon: any) => (
             <Card key={coupon.id}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="space-y-1">
@@ -64,8 +64,8 @@ export default async function SellerCouponsPage() {
               </CardHeader>
               <CardContent>
                 <div className="text-2xl font-bold text-primary">
-                  {coupon.discountPercent 
-                    ? `${coupon.discountPercent}% OFF` 
+                  {coupon.discountPercent
+                    ? `${coupon.discountPercent}% OFF`
                     : formatCurrency(Number(coupon.discountFixed)) + " OFF"}
                 </div>
                 <div className="mt-4 space-y-2 text-sm text-muted-foreground">
@@ -87,12 +87,12 @@ export default async function SellerCouponsPage() {
                   )}
                 </div>
                 <div className="mt-6 flex gap-2">
-                   <Button variant="outline" size="sm" className="flex-1" disabled>
-                     <Edit className="mr-2 h-4 w-4" /> Editar
-                   </Button>
-                   <Button variant="outline" size="sm" className="text-destructive hover:bg-destructive/5" disabled>
-                     <Trash2 className="h-4 w-4" />
-                   </Button>
+                  <Button variant="outline" size="sm" className="flex-1" disabled>
+                    <Edit className="mr-2 h-4 w-4" /> Editar
+                  </Button>
+                  <Button variant="outline" size="sm" className="text-destructive hover:bg-destructive/5" disabled>
+                    <Trash2 className="h-4 w-4" />
+                  </Button>
                 </div>
               </CardContent>
             </Card>

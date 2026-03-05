@@ -84,7 +84,7 @@ export default async function Home() {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {products.map((product) => (
+            {products.map((product: any) => (
               <Card key={product.id} className="group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-300 bg-background">
                 <Link href={`/product/${product.id}`}>
                   <CardHeader className="p-0">
@@ -144,7 +144,7 @@ export default async function Home() {
             {stores.length === 0 ? (
               <p className="text-muted-foreground col-span-full text-center py-10">Nenhuma loja cadastrada ainda.</p>
             ) : (
-              stores.map((store) => (
+              stores.map((store: any) => (
                 <Link key={store.id} href={`/stores/${store.slug}`} className="group">
                   <Card className="hover:border-primary/50 transition-colors bg-background border-none shadow-sm group-hover:shadow-md">
                     <CardContent className="p-6 flex flex-col items-center text-center">

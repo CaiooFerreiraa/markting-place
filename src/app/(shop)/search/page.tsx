@@ -35,10 +35,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     ],
   };
 
-  const orderBy: Prisma.ProductOrderByWithRelationInput = 
+  const orderBy: Prisma.ProductOrderByWithRelationInput =
     sort === 'price-asc' ? { priceRetail: 'asc' } :
-    sort === 'price-desc' ? { priceRetail: 'desc' } :
-    { createdAt: 'desc' };
+      sort === 'price-desc' ? { priceRetail: 'desc' } :
+        { createdAt: 'desc' };
 
   const products = await db.product.findMany({
     where,
@@ -83,17 +83,17 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {products.map((product) => (
-                <Link 
-                  key={product.id} 
+              {products.map((product: any) => (
+                <Link
+                  key={product.id}
                   href={`/product/${product.id}`}
                   className="group block"
                 >
                   <Card className="overflow-hidden border-muted hover:border-primary/50 transition-all duration-300 hover:shadow-xl h-full flex flex-col">
                     <div className="aspect-square bg-muted relative overflow-hidden">
                       {product.images[0] ? (
-                        <img 
-                          src={product.images[0]} 
+                        <img
+                          src={product.images[0]}
                           alt={product.name}
                           className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                         />

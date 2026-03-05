@@ -55,7 +55,7 @@ export default async function SellerOrdersPage() {
         </Card>
       ) : (
         <div className="grid gap-6">
-          {storeOrders.map((storeOrder) => (
+          {storeOrders.map((storeOrder: any) => (
             <Card key={storeOrder.id} className="overflow-hidden">
               <CardHeader className="bg-muted/30 border-b py-4 flex flex-row items-center justify-between">
                 <div>
@@ -75,7 +75,7 @@ export default async function SellerOrdersPage() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {storeOrder.orderItems.map((item) => (
+                  {storeOrder.orderItems.map((item: any) => (
                     <div key={item.id} className="flex justify-between items-center text-sm">
                       <div className="flex gap-4 items-center">
                         <div className="w-10 h-10 bg-muted rounded overflow-hidden flex-shrink-0">

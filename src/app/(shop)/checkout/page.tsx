@@ -21,7 +21,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { items, getGroupedItems, getTotalPrice, clearCart } = useCartStore();
-  
+
   const [mounted, setMounted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [orderComplete, setOrderComplete] = useState<string | null>(null);
@@ -202,7 +202,7 @@ export default function CheckoutPage() {
               <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm">1</span>
               Como deseja receber seus produtos?
             </h2>
-            {groupedItems.map((group) => (
+            {groupedItems.map((group: any) => (
               <FulfillmentSelector
                 key={group.storeId}
                 storeName={group.storeName}
@@ -263,25 +263,25 @@ export default function CheckoutPage() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <ScrollArea className="max-h-[300px] -mx-2 px-2">
-                  {groupedItems.map((group) => (
+                  {groupedItems.map((group: any) => (
                     <div key={group.storeId} className="mb-6 last:mb-0">
                       <p className="text-[10px] font-bold text-muted-foreground uppercase mb-2 tracking-tight">
-                         Loja: {group.storeName}
+                        Loja: {group.storeName}
                       </p>
                       <div className="space-y-2">
-                        {group.items.map((item) => (
+                        {group.items.map((item: any) => (
                           <div key={item.id} className="flex justify-between text-sm">
                             <span className="text-muted-foreground">{item.quantity}x {item.product.name}</span>
                             <span className="font-medium">{formatCurrency(item.price * item.quantity)}</span>
                           </div>
                         ))}
                       </div>
-                      
+
                       <div className="mt-4">
-                        <CouponInput 
-                          storeId={group.storeId} 
+                        <CouponInput
+                          storeId={group.storeId}
                           storeName={group.storeName}
-                          subtotal={group.items.reduce((acc, item) => acc + item.price * item.quantity, 0)}
+                          subtotal={group.items.reduce((acc: any, item: any) => acc + item.price * item.quantity, 0)}
                           appliedCoupon={appliedCoupons[group.storeId]}
                           onApply={(coupon) => handleApplyCoupon(group.storeId, coupon)}
                           onRemove={() => handleRemoveCoupon(group.storeId)}
@@ -291,7 +291,7 @@ export default function CheckoutPage() {
                       {appliedCoupons[group.storeId] && (
                         <div className="flex justify-between text-xs text-green-600 font-bold mt-2">
                           <span>Desconto ({appliedCoupons[group.storeId].code})</span>
-                          <span>-{formatCurrency(calculateStoreDiscount(group.storeId, group.items.reduce((acc, item) => acc + item.price * item.quantity, 0)))}</span>
+                          <span>-{formatCurrency(calculateStoreDiscount(group.storeId, group.items.reduce((acc: any, item: any) => acc + item.price * item.quantity, 0)))}</span>
                         </div>
                       )}
 
@@ -309,10 +309,10 @@ export default function CheckoutPage() {
                     <div className="flex justify-between text-sm text-green-600 font-medium">
                       <span>Total Descontos</span>
                       <span>-{formatCurrency(
-                        Object.keys(appliedCoupons).reduce((acc, storeId) => {
+                        Object.keys(appliedCoupons).reduce((acc: any, storeId: any) => {
                           const group = groupedItems.find(g => g.storeId === storeId);
                           if (!group) return acc;
-                          const subtotal = group.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                          const subtotal = group.items.reduce((sum: any, item: any) => sum + item.price * item.quantity, 0);
                           return acc + calculateStoreDiscount(storeId, subtotal);
                         }, 0)
                       )}</span>
@@ -326,7 +326,7 @@ export default function CheckoutPage() {
                   <div className="flex justify-between text-xl font-bold pt-2">
                     <span>Total</span>
                     <span>{formatCurrency(
-                      totalPrice - Object.keys(appliedCoupons).reduce((acc, storeId) => {
+                      totalPrice - Object.keys(appliedCoupons).reduce((acc: any, storeId: any) => {
                         const group = groupedItems.find(g => g.storeId === storeId);
                         if (!group) return acc;
                         const subtotal = group.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -336,9 +336,9 @@ export default function CheckoutPage() {
                   </div>
                 </div>
 
-                <Button 
-                  className="w-full mt-6 text-lg py-6" 
-                  onClick={handleSubmit} 
+                <Button
+                  className="w-full mt-6 text-lg py-6"
+                  onClick={handleSubmit}
                   disabled={loading}
                 >
                   {loading ? (
