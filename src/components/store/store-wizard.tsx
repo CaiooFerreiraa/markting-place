@@ -19,9 +19,15 @@ const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLa
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
 
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
 
 export function StoreWizard() {
+  const [L, setL] = useState<any>(null);
+
+  useEffect(() => {
+    import("leaflet").then((mod) => {
+      setL(mod.default);
+    });
+  }, []);
   const [step, setStep] = useQueryState("step", parseAsInteger.withDefault(1));
   const router = useRouter();
   const { toast } = useToast();
@@ -266,7 +272,7 @@ export function StoreWizard() {
                   </div>
                 )}
                 
-                {typeof window !== "undefined" ? (
+                {typeof window !== "undefined" && L ? (
                   <MapContainer center={[formData.lat, formData.lng]} zoom={15} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
                     <Marker position={[formData.lat, formData.lng]} icon={L.icon({ iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png", shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png", iconSize: [25, 41], iconAnchor: [12, 41] })}>
