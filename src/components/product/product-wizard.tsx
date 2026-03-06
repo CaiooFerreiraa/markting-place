@@ -2,7 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Category } from "@prisma/client";
+import type { Category } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -155,10 +155,10 @@ export function ProductWizard({ categories }: ProductWizardProps) {
   };
 
   const nextStep = async () => {
-    const fieldsToValidate = step === 1 
-      ? ["name", "description", "categoryId"] 
+    const fieldsToValidate = step === 1
+      ? ["name", "description", "categoryId"]
       : ["priceRetail", "priceWholesale", "minWholesaleQty", "stock"];
-    
+
     const isValid = await form.trigger(fieldsToValidate as any);
     if (isValid) setStep((s) => s + 1);
   };
@@ -171,9 +171,8 @@ export function ProductWizard({ categories }: ProductWizardProps) {
         {[1, 2, 3].map((i) => (
           <div key={i} className="flex items-center">
             <div
-              className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                step >= i ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
-              }`}
+              className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${step >= i ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
+                }`}
             >
               {i}
             </div>
@@ -235,10 +234,10 @@ export function ProductWizard({ categories }: ProductWizardProps) {
                   <FormItem>
                     <FormLabel>Descrição (Opcional)</FormLabel>
                     <FormControl>
-                      <Textarea 
-                        placeholder="Detalhes sobre o produto, materiais, tamanhos, etc." 
+                      <Textarea
+                        placeholder="Detalhes sobre o produto, materiais, tamanhos, etc."
                         className="min-h-[120px]"
-                        {...field} 
+                        {...field}
                       />
                     </FormControl>
                     <FormMessage />
@@ -318,15 +317,15 @@ export function ProductWizard({ categories }: ProductWizardProps) {
 
           {step === 3 && (
             <div className="space-y-4">
-              <div 
+              <div
                 className="border-2 border-dashed rounded-lg p-10 flex flex-col items-center justify-center cursor-pointer hover:border-primary transition-colors"
                 onClick={() => fileInputRef.current?.click()}
               >
-                <input 
-                  type="file" 
-                  multiple 
-                  accept="image/*" 
-                  className="hidden" 
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  className="hidden"
                   ref={fileInputRef}
                   onChange={handleImageChange}
                 />

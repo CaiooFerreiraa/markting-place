@@ -2,7 +2,7 @@
 
 import { useQueryState } from 'nuqs';
 import { searchParamsParsers } from '@/lib/search-params';
-import { Category } from '@prisma/client';
+import type { Category } from '@prisma/client';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
@@ -76,8 +76,8 @@ export function FilterSidebar({ categories }: FilterSidebarProps) {
                 onClick={() => toggleCategory(c.slug)}
                 className={cn(
                   "w-full text-left px-3 py-2 rounded-md text-sm transition-all duration-200 group flex items-center justify-between",
-                  category === c.slug 
-                    ? "bg-primary text-primary-foreground font-medium shadow-sm" 
+                  category === c.slug
+                    ? "bg-primary text-primary-foreground font-medium shadow-sm"
                     : "hover:bg-muted text-muted-foreground hover:text-foreground"
                 )}
               >

@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { Prisma } from "@prisma/client";
+
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { ProductJsonLd } from "@/components/seo/json-ld";

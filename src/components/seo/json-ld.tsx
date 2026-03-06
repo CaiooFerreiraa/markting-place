@@ -1,4 +1,4 @@
-import { Product, Store, Category } from "@prisma/client";
+import type { Product, Store, Category } from "@prisma/client";
 
 interface JsonLdProps {
   product: Product & { store: Store; category: Category };

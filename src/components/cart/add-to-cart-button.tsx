@@ -1,7 +1,7 @@
 "use client";
 
 import { ShoppingCart } from "lucide-react";
-import { Product, Store } from "@prisma/client";
+import type { Product, Store } from "@prisma/client";
 import { useCartStore } from "@/store/use-cart-store";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast-hooks";
@@ -33,7 +33,7 @@ export function AddToCartButton({
     };
 
     addItem(item);
-    
+
     toast({
       title: "Adicionado ao carrinho",
       description: `${product.name} foi adicionado ao seu carrinho.`,
@@ -41,9 +41,9 @@ export function AddToCartButton({
   };
 
   return (
-    <Button 
-      variant={variant} 
-      className={className} 
+    <Button
+      variant={variant}
+      className={className}
       onClick={handleAddToCart}
     >
       <ShoppingCart className="mr-2 h-4 w-4" />

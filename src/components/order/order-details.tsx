@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, Package, Truck, Store as StoreIcon, MapPin, Calendar, Clock, Map as MapIcon } from "lucide-react";
-import dynamic from "next/dynamic";
+import dynamic from "next/dynamic"; 
 import { NavLinks } from "./nav-links";
 
 // Dynamically import Leaflet to avoid SSR issues
