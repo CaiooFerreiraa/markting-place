@@ -96,9 +96,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
     }
   });
 
-  type ProductWithRelations = Prisma.ProductGetPayload<{
-    include: { store: true; category: true };
-  }>;
+  type ProductWithRelations = (typeof similarProducts)[number];
 
   // Convert Prisma Decimal to number to allow passing to Client Components
   const serializableProduct = {

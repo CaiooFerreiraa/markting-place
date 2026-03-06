@@ -28,9 +28,7 @@ export default async function SellerCouponsPage() {
     },
   });
 
-  type CouponWithStore = Prisma.CouponGetPayload<{
-    include: { store: true };
-  }>;
+  type CouponWithStore = (typeof coupons)[number];
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
