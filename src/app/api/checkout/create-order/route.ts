@@ -8,6 +8,11 @@ import { initPlugins } from "@/lib/plugins";
 // Initialize plugins once
 initPlugins();
 
+interface CartItem {
+  id: string;
+  quantity: number;
+}
+
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
@@ -23,7 +28,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 1. Fetch current product data from DB to ensure prices are up to date
-    const productIds = items.map((item: any) => item.id);
+    const productIds = items.map((item: CartItem) => item.id);
     const dbProducts = await db.product.findMany({
       where: { id: { in: productIds } },
       select: {
@@ -35,7 +40,12 @@ export async function POST(req: NextRequest) {
     });
 
     // 2. Map and group items by store
-    const storeGroups: Record<string, { items: any[], subtotal: number }> = {};
+    interface StoreItem {
+      productId: string;
+      quantity: number;
+      price: number;
+    }
+    const storeGroups: Record<string, { items: StoreItem[], subtotal: number }> = {};
     let totalOrderAmount = 0;
 
     for (const item of items) {
@@ -86,11 +96,15 @@ export async function POST(req: NextRequest) {
       });
 
       // Create StoreOrders and OrderItems
+      interface CouponInput {
+        storeId: string;
+        couponId: string;
+      }
       for (const [storeId, group] of Object.entries(storeGroups)) {
         const fulfillment = fulfillmentChoices?.[storeId] || FulfillmentType.PICKUP;
 
         let storeDiscount = 0;
-        const storeCoupon = appliedCoupons?.find((c: any) => c.storeId === storeId);
+        const storeCoupon = appliedCoupons?.find((c: CouponInput) => c.storeId === storeId);
 
         if (storeCoupon) {
           const coupon = await tx.coupon.findUnique({
@@ -140,8 +154,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ orderId: order.id }, { status: 201 });
 
-  } catch (error: any) {
+  } catch (error) {
     console.error("[CREATE_ORDER_ERROR]", error);
-    return NextResponse.json({ error: error.message || "Something went wrong" }, { status: 500 });
+    return NextResponse.json({ error: error instanceof Error ? error.message : "Something went wrong" }, { status: 500 });
   }
 }

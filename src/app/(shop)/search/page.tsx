@@ -3,6 +3,7 @@ import { searchParamsCache } from "@/lib/search-params";
 import { SearchParams } from "nuqs/server";
 import { FilterSidebar } from "@/components/discovery/filter-sidebar";
 import { SortDropdown } from "@/components/discovery/sort-dropdown";
+import { Prisma } from "@prisma/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Store, Tag, FilterX } from "lucide-react";
@@ -16,7 +17,7 @@ interface SearchPageProps {
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { q, category, minPrice, maxPrice, sort } = await searchParamsCache.parse(searchParams);
 
-  const where = {
+  const where: Prisma.ProductWhereInput = {
     AND: [
       q ? {
         OR: [
@@ -34,10 +35,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     ],
   };
 
-  const orderBy =
-    sort === 'price-asc' ? { priceRetail: 'asc' as const } :
-      sort === 'price-desc' ? { priceRetail: 'desc' as const } :
-        { createdAt: 'desc' as const };
+  const orderBy: Prisma.ProductOrderByWithRelationInput =
+    sort === 'price-asc' ? { priceRetail: 'asc' } :
+      sort === 'price-desc' ? { priceRetail: 'desc' } :
+        { createdAt: 'desc' };
 
   const products = await db.product.findMany({
     where,
@@ -51,6 +52,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const categories = await db.category.findMany({
     orderBy: { name: 'asc' },
   });
+
+  type ProductWithRelations = Prisma.ProductGetPayload<{
+    include: { category: true; store: true };
+  }>;
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -82,7 +87,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {products.map((product) => (
+              {products.map((product: ProductWithRelations) => (
                 <Link
                   key={product.id}
                   href={`/product/${product.id}`}
