@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Store, ShoppingCart } from "lucide-react";
-import { Prisma } from "@prisma/client";
+import { StoreOrderWithDetails } from "@/types/order";
 
 export default async function SellerOrdersPage() {
   const session = await auth();
@@ -29,7 +29,6 @@ export default async function SellerOrdersPage() {
       </div>
     );
   }
-
   const storeOrders = await db.storeOrder.findMany({
     where: { storeId: store.id },
     include: {
@@ -41,18 +40,7 @@ export default async function SellerOrdersPage() {
       }
     },
     orderBy: { createdAt: "desc" }
-  });
-
-  type StoreOrderWithRelations = Prisma.StoreOrderGetPayload<{
-    include: {
-      orderItems: {
-        include: { product: true };
-      };
-      order: {
-        include: { user: true };
-      };
-    };
-  }>;
+  }) as unknown as StoreOrderWithDetails[];
 
   return (
     <div className="container mx-auto py-10 px-4">
@@ -67,7 +55,7 @@ export default async function SellerOrdersPage() {
         </Card>
       ) : (
         <div className="grid gap-6">
-          {storeOrders.map((storeOrder: StoreOrderWithRelations) => (
+          {storeOrders.map((storeOrder: StoreOrderWithDetails) => (
             <Card key={storeOrder.id} className="overflow-hidden">
               <CardHeader className="bg-muted/30 border-b py-4 flex flex-row items-center justify-between">
                 <div>

@@ -35,3 +35,9 @@ export interface Store {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface StoreWithProductCount extends Store {
+  _count: {
+    products: number;
+  };
+}

@@ -15,6 +15,19 @@ export interface Product {
   updatedAt: Date;
 }
 
+export interface ProductWithRelations extends Product {
+  store: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+  category: {
+    id: string;
+    name: string;
+    slug: string;
+  };
+}
+
 export interface Category {
   id: string;
   name: string;

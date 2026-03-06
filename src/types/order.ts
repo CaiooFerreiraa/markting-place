@@ -5,6 +5,7 @@ import type {
   Product,
   Store,
   ShippingAddress,
+  User,
 } from "@prisma/client";
 
 export enum FulfillmentType {
@@ -45,6 +46,7 @@ export interface OrderItemWithProduct extends OrderItem {
 export interface StoreOrderWithDetails extends StoreOrder {
   store: Store;
   orderItems: OrderItemWithProduct[];
+  order: Order & { user: User };
 }
 
 export interface OrderWithDetails extends Order {

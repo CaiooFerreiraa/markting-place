@@ -3,13 +3,14 @@ import { auth } from "@/auth"
 import { db } from "@/lib/db"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { LayoutDashboard, Package, Plus, ShoppingCart, Store as StoreIcon } from "lucide-react"
-import Link from "next/link"
 import { StoreList } from "@/components/seller/store-list"
 import { ProductList } from "@/components/seller/product-list"
 import { Button } from "@/components/ui/button"
 import { SubscriptionCard } from "@/components/dashboard/seller/subscription-card"
 import { PaymentSetup } from "@/components/dashboard/seller/payment-setup"
-import { Prisma } from "@prisma/client"
+import { StoreWithProductCount } from "@/types/store"
+import { Product } from "@/types/product"
+import Link from "next/link"
 
 export default async function SellerDashboardPage({
   searchParams,
@@ -38,23 +39,17 @@ export default async function SellerDashboardPage({
         select: { products: true }
       }
     }
-  })
-
-  type StoreWithCount = Prisma.StoreGetPayload<{
-    include: { _count: { select: { products: true } } }
-  }>;
+  }) as unknown as StoreWithProductCount[];
 
   const selectedStoreId = searchParams.store || stores[0]?.id
-  const selectedStore = stores.find((s: StoreWithCount) => s.id === selectedStoreId)
+  const selectedStore = stores.find((s: StoreWithProductCount) => s.id === selectedStoreId)
 
   const products = selectedStoreId
     ? await db.product.findMany({
       where: { storeId: selectedStoreId },
       orderBy: { createdAt: 'desc' }
-    })
+    }) as unknown as Product[]
     : []
-
-  type Product = Prisma.ProductGetPayload<{}>;
 
   const serializableProducts = products.map((product: Product) => ({
     ...product,
@@ -62,7 +57,7 @@ export default async function SellerDashboardPage({
     priceWholesale: product.priceWholesale ? Number(product.priceWholesale) : null,
   }))
 
-  const totalProducts = stores.reduce((acc: number, store: StoreWithCount) => acc + store._count.products, 0)
+  const totalProducts = stores.reduce((acc: number, store: StoreWithProductCount) => acc + store._count.products, 0)
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -76,7 +71,7 @@ export default async function SellerDashboardPage({
             </Link>
           </Button>
           <Button asChild>
-            <Link href={selectedStoreId ? `/seller/products/new?storeId=${selectedStoreId}` : "/seller/products/new"}>
+            <Link href="/seller/products/new">
               <Plus className="mr-2 h-4 w-4" />
               Novo Produto
             </Link>
@@ -87,80 +82,79 @@ export default async function SellerDashboardPage({
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Lojas</CardTitle>
+            <CardTitle className="text-sm font-medium">Vendas Totais</CardTitle>
+            <ShoppingCart className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{formatCurrency(0)}</div>
+            <p className="text-xs text-muted-foreground">+0% em relação ao mês passado</p>
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Lojas Ativas</CardTitle>
             <StoreIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{stores.length}</div>
-            <p className="text-xs text-muted-foreground">Unidades gerenciadas</p>
+            <p className="text-xs text-muted-foreground">Gerencie suas unidades</p>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total de Produtos</CardTitle>
+            <CardTitle className="text-sm font-medium">Produtos</CardTitle>
             <Package className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{totalProducts}</div>
-            <p className="text-xs text-muted-foreground">Em todas as lojas</p>
+            <p className="text-xs text-muted-foreground">Em todas as suas lojas</p>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Vendas</CardTitle>
-            <ShoppingCart className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">R$ 0,00</div>
-            <p className="text-xs text-muted-foreground">Em breve (Fase 2)</p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Status Global</CardTitle>
+            <CardTitle className="text-sm font-medium">Assinatura</CardTitle>
             <LayoutDashboard className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">Ativo</div>
-            <p className="text-xs text-muted-foreground">Pronto para vender</p>
+            <div className="text-2xl font-bold uppercase">{user?.revenueModel || "FREE"}</div>
+            <p className="text-xs text-muted-foreground">
+              Status: {user?.subscriptionStatus || "Inativo"}
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7 mt-8">
-        <div className="col-span-3 space-y-4">
-          <SubscriptionCard
-            subscriptionStatus={user?.subscriptionStatus || null}
-            revenueModel={user?.revenueModel || "TRANSACTION_FEE"}
-          />
-          <PaymentSetup
-            stripeAccountId={user?.stripeAccountId || null}
-            chargesEnabled={!!user?.stripeAccountId}
-          />
-          <h3 className="text-xl font-semibold">Minhas Lojas</h3>
-          <StoreList stores={stores as any} />
-        </div>
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <div className="col-span-4 space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-xl font-semibold">
-              {selectedStore ? `Produtos em ${selectedStore.name}` : "Produtos"}
-            </h3>
-            {selectedStoreId && (
-              <Button asChild size="sm" variant="ghost">
-                <Link href={`/seller/products/new?storeId=${selectedStoreId}`}>
-                  <Plus className="mr-2 h-4 w-4" />
-                  Novo Produto
-                </Link>
-              </Button>
-            )}
-          </div>
-          <ProductList products={serializableProducts as any} storeId={selectedStoreId || ""} />
+          {!user?.stripeAccountId ? (
+            <PaymentSetup
+              stripeAccountId={user?.stripeAccountId || null}
+              chargesEnabled={false}
+            />
+          ) : (
+            <SubscriptionCard
+              subscriptionStatus={user.subscriptionStatus || "INACTIVE"}
+              revenueModel={user.revenueModel || "TRANSACTION_FEE"}
+            />
+          )}
+          <StoreList stores={stores} />
         </div>
+        <Card className="col-span-3">
+          <CardHeader>
+            <CardTitle>Produtos da Loja: {selectedStore?.name || "Nenhuma selecionada"}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ProductList products={serializableProducts} storeId={selectedStoreId || ""} />
+          </CardContent>
+        </Card>
       </div>
     </div>
   )
 }
 
+function formatCurrency(value: number) {
+  return new Intl.NumberFormat('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+  }).format(value)
+}
