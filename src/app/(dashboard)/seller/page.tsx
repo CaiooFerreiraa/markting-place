@@ -49,7 +49,7 @@ export default async function SellerDashboardPage({
     })
     : []
 
-  const serializableProducts = products.map((product) => ({
+  const serializableProducts = products.map((product: any) => ({
     ...product,
     priceRetail: Number(product.priceRetail),
     priceWholesale: product.priceWholesale ? Number(product.priceWholesale) : null,

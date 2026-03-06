@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { ProductJsonLd } from "@/components/seo/json-ld";
 import { AddToCartButton } from "@/components/cart/add-to-cart-button";
+import { CartSidebarWidget } from "@/components/cart/cart-sidebar-widget";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import type { Store } from "@prisma/client";
-import { Star, Leaf, ShieldCheck, Truck, Lock, RefreshCcw, MapPin, Check } from "lucide-react";
+import { Star, Leaf, ShieldCheck, Truck, Lock, RefreshCcw, MapPin, Check, ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -83,6 +84,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
+  const similarProducts = await db.product.findMany({
+    where: {
+      categoryId: product.categoryId,
+      id: { not: product.id }
+    },
+    take: 5,
+    include: {
+      store: true,
+      category: true,
+    }
+  });
+
   // Convert Prisma Decimal to number to allow passing to Client Components
   const serializableProduct = {
     ...product,
@@ -93,6 +106,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
   return (
     <div className="container mx-auto py-8 px-4">
       <ProductJsonLd product={product} />
+
+      <div className="mb-6">
+        <Link href="/search" className="inline-flex items-center text-sm text-muted-foreground hover:text-primary transition-colors">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Voltar
+        </Link>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-10">
 
@@ -211,9 +231,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
 
-        {/* Right Column - Buy Box */}
-        <div className="lg:col-span-3">
-          <Card className="sticky top-24 border sm:shadow-lg bg-background rounded-xl overflow-hidden">
+        {/* Right Column - Buy Box & Side Items */}
+        <div className="lg:col-span-3 flex flex-col gap-6">
+          <Card className="border sm:shadow-lg bg-background rounded-xl overflow-hidden">
             <CardContent className="p-5">
               <div className="text-3xl font-extrabold mb-4">{formatCurrency(Number(product.priceRetail))}</div>
               <div className="text-sm space-y-2 mb-6 text-foreground">
@@ -288,8 +308,240 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
             </CardContent>
           </Card>
+
+          <CartSidebarWidget />
         </div>
       </div>
+
+      <Separator className="my-12" />
+
+      {/* Compartison Table Mockup */}
+      {similarProducts.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Comparar com itens semelhantes</h2>
+          <div className="overflow-x-auto pb-4">
+            <table className="w-full text-sm text-left border-collapse min-w-[800px]">
+              <thead>
+                <tr>
+                  <th className="font-normal w-48 border-b p-4 align-bottom"></th>
+                  <th className="font-normal w-48 border-b p-4 align-bottom">
+                    <div className="flex flex-col items-center text-center">
+                      <div className="h-24 w-24 relative mb-2">
+                        {product.images?.[0] ? <Image src={product.images[0]} alt={product.name} fill className="object-contain" /> : <div className="h-full w-full bg-muted flex items-center justify-center text-xs">Sem Imagem</div>}
+                      </div>
+                      <span className="font-semibold text-primary line-clamp-2">{product.name}</span>
+                    </div>
+                  </th>
+                  {similarProducts.slice(0, 4).map(sim => (
+                    <th key={sim.id} className="font-normal w-48 border-b p-4 border-l border-border/50 align-bottom">
+                      <Link href={`/product/${sim.id}`} className="flex flex-col items-center text-center group">
+                        <div className="h-24 w-24 relative mb-2">
+                          {sim.images?.[0] ? <Image src={sim.images[0]} alt={sim.name} fill className="object-contain" /> : <div className="h-full w-full bg-muted flex items-center justify-center text-xs">Sem Imagem</div>}
+                        </div>
+                        <span className="text-primary group-hover:underline line-clamp-2">{sim.name}</span>
+                      </Link>
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/50">
+                <tr>
+                  <td className="font-bold p-4 bg-muted/20">Preço</td>
+                  <td className="p-4 text-center font-bold">{formatCurrency(Number(product.priceRetail))}</td>
+                  {similarProducts.slice(0, 4).map(sim => (
+                    <td key={`price-${sim.id}`} className="p-4 border-l border-border/50 text-center">{formatCurrency(Number(sim.priceRetail))}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="font-bold p-4 bg-muted/20">Vendido por</td>
+                  <td className="p-4 text-center text-primary">{product.store.name}</td>
+                  {similarProducts.slice(0, 4).map(sim => (
+                    <td key={`store-${sim.id}`} className="p-4 border-l border-border/50 text-center text-primary">{sim.store.name}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="font-bold p-4 bg-muted/20">Categoria</td>
+                  <td className="p-4 text-center">{product.category.name}</td>
+                  {similarProducts.slice(0, 4).map(sim => (
+                    <td key={`cat-${sim.id}`} className="p-4 border-l border-border/50 text-center">{sim.category.name}</td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="font-bold p-4 bg-muted/20">Condição</td>
+                  <td className="p-4 text-center">Novo</td>
+                  {similarProducts.slice(0, 4).map(sim => (
+                    <td key={`cond-${sim.id}`} className="p-4 border-l border-border/50 text-center">Novo</td>
+                  ))}
+                </tr>
+                <tr>
+                  <td className="font-bold p-4 bg-muted/20">Avaliações</td>
+                  <td className="p-4 text-center flex justify-center text-yellow-500">
+                    <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current opacity-30" />
+                  </td>
+                  {similarProducts.slice(0, 4).map(sim => (
+                    <td key={`rate-${sim.id}`} className="p-4 border-l border-border/50 text-center">
+                      <div className="flex justify-center text-yellow-500">
+                        <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current opacity-50" /> <Star className="h-4 w-4 fill-current opacity-20" />
+                      </div>
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
+      {similarProducts.length > 0 && <Separator className="my-12" />}
+
+      {/* Recommendations / Semelhantes Grid */}
+      {similarProducts.length > 0 && (
+        <section className="mb-12">
+          <h2 className="text-2xl font-bold mb-6">Semelhantes que você pode gostar</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
+            {similarProducts.map((sim) => (
+              <Card key={`rec-grid-${sim.id}`} className="group overflow-hidden border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 bg-background flex flex-col h-full">
+                <Link href={`/product/${sim.id}`} className="flex-1 flex flex-col">
+                  <div className="relative aspect-square overflow-hidden bg-muted/30 p-2">
+                    {sim.images?.[0] ? (
+                      <Image src={sim.images[0]} alt={sim.name} fill className="object-contain mix-blend-multiply group-hover:scale-105 transition-transform duration-300" />
+                    ) : (
+                      <div className="flex h-full items-center justify-center text-muted-foreground text-xs">Sem foto</div>
+                    )}
+                  </div>
+                  <CardContent className="p-3 flex-1 flex flex-col justify-between">
+                    <div>
+                      <h3 className="text-sm line-clamp-2 group-hover:text-primary transition-colors text-primary font-medium">
+                        {sim.name}
+                      </h3>
+                      <div className="flex items-center text-yellow-500 mt-1 mb-2">
+                        <Star className="h-3 w-3 fill-current" />
+                        <Star className="h-3 w-3 fill-current" />
+                        <Star className="h-3 w-3 fill-current" />
+                        <Star className="h-3 w-3 fill-current" />
+                        <Star className="h-3 w-3 fill-current opacity-50" />
+                        <span className="text-muted-foreground text-xs ml-1">10</span>
+                      </div>
+                    </div>
+                    <p className="text-lg font-bold">{formatCurrency(Number(sim.priceRetail))}</p>
+                  </CardContent>
+                </Link>
+              </Card>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <Separator className="my-12" />
+
+
+
+      {/* Reviews Mockup */}
+      <section className="mb-12 grid grid-cols-1 md:grid-cols-12 gap-10">
+        <div className="md:col-span-4 lg:col-span-3">
+          <h2 className="text-2xl font-bold mb-4">Avaliações de clientes</h2>
+          <div className="flex items-center mb-2">
+            <div className="flex items-center text-yellow-500 mr-2">
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current" />
+              <Star className="h-5 w-5 fill-current opacity-50" />
+            </div>
+            <span className="text-lg font-medium">4,6 de 5</span>
+          </div>
+          <p className="text-sm text-muted-foreground mb-6">64 classificações globais</p>
+
+          <div className="space-y-3 text-sm flex flex-col mb-8">
+            <div className="flex items-center gap-3">
+              <span className="w-12 text-primary hover:underline cursor-pointer">5 estrela</span>
+              <div className="flex-1 h-4 border border-border bg-muted/50 rounded overflow-hidden shadow-inner"><div className="h-full bg-yellow-400 w-[78%]"></div></div>
+              <span className="w-8 text-right text-primary">78%</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="w-12 text-primary hover:underline cursor-pointer">4 estrela</span>
+              <div className="flex-1 h-4 border border-border bg-muted/50 rounded overflow-hidden shadow-inner"><div className="h-full bg-yellow-400 w-[12%]"></div></div>
+              <span className="w-8 text-right text-primary">12%</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="w-12 text-primary hover:underline cursor-pointer">3 estrela</span>
+              <div className="flex-1 h-4 border border-border bg-muted/50 rounded overflow-hidden shadow-inner"><div className="h-full bg-yellow-400 w-[5%]"></div></div>
+              <span className="w-8 text-right text-primary">5%</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="w-12 text-primary hover:underline cursor-pointer">2 estrela</span>
+              <div className="flex-1 h-4 border border-border bg-muted/50 rounded overflow-hidden shadow-inner"><div className="h-full bg-yellow-400 w-[2%]"></div></div>
+              <span className="w-8 text-right text-primary">2%</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <span className="w-12 text-primary hover:underline cursor-pointer">1 estrela</span>
+              <div className="flex-1 h-4 border border-border bg-muted/50 rounded overflow-hidden shadow-inner"><div className="h-full bg-yellow-400 w-[3%]"></div></div>
+              <span className="w-8 text-right text-primary">3%</span>
+            </div>
+          </div>
+
+          <Separator className="my-6" />
+
+          <h3 className="font-bold text-lg mb-2">Avalie este produto</h3>
+          <p className="text-sm text-muted-foreground mb-4">Compartilhe seus pensamentos com outros clientes</p>
+          <Button variant="outline" className="w-full rounded-full">Escrever uma avaliação</Button>
+        </div>
+
+        <div className="md:col-span-8 lg:col-span-9 space-y-8">
+          <h3 className="font-bold text-lg">Principais avaliações do Brasil</h3>
+
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 bg-muted rounded-full flex items-center justify-center font-bold text-muted-foreground">M</div>
+                <span className="font-medium">Mônica Souza</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center text-yellow-500">
+                  <Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current" />
+                </div>
+                <span className="font-bold text-sm">Excelente produto, surpreendeu!</span>
+              </div>
+              <p className="text-xs text-muted-foreground">Avaliado no Brasil em 10 de fevereiro de 2026</p>
+              <p className="text-xs text-primary font-medium">Compra Verificada</p>
+              <p className="text-sm text-foreground leading-relaxed">
+                Superou minhas expectativas. A entrega foi rápida e o produto veio muito bem embalado. Qualidade acima da média para a categoria. Aconselho bastante. Compra super tranquila pela página com muita segurança. Voltarei a comprar.
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">12 pessoas acharam isso útil</p>
+              <div className="flex gap-4 mt-2">
+                <Button variant="outline" size="sm" className="h-8 rounded-full text-xs">Útil</Button>
+                <span className="text-xs text-muted-foreground self-center cursor-pointer hover:underline">Informar erro</span>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <div className="h-8 w-8 bg-muted rounded-full flex items-center justify-center font-bold text-muted-foreground">J</div>
+                <span className="font-medium">João Paulo</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <div className="flex items-center text-yellow-500">
+                  <Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current" /><Star className="h-4 w-4 fill-current opacity-30" />
+                </div>
+                <span className="font-bold text-sm">Bom custo-benefício</span>
+              </div>
+              <p className="text-xs text-muted-foreground">Avaliado no Brasil em 3 de março de 2026</p>
+              <p className="text-xs text-primary font-medium">Compra Verificada</p>
+              <p className="text-sm text-foreground leading-relaxed">
+                Produto muito bom considerando o preço. Cumpre o que promete. Tem detalhes pequenos de acabamento mas nada que atrapalhe o uso. Loja parceira foi super ágil também.
+              </p>
+              <p className="text-xs text-muted-foreground mt-2">5 pessoas acharam isso útil</p>
+              <div className="flex gap-4 mt-2">
+                <Button variant="outline" size="sm" className="h-8 rounded-full text-xs">Útil</Button>
+                <span className="text-xs text-muted-foreground self-center cursor-pointer hover:underline">Informar erro</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
     </div>
   );
 }
