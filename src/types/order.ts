@@ -1,17 +1,42 @@
-import { 
-  Order, 
-  StoreOrder, 
-  OrderItem, 
-  Product, 
-  Store, 
+import type {
+  Order,
+  StoreOrder,
+  OrderItem,
+  Product,
+  Store,
   ShippingAddress,
-  OrderStatus,
-  PaymentStatus,
-  FulfillmentType
 } from "@prisma/client";
 
-// Define aliases for convenience
-export { OrderStatus, PaymentStatus, FulfillmentType };
+export enum FulfillmentType {
+  PICKUP = "PICKUP",
+  DELIVERY = "DELIVERY",
+}
+
+export enum OrderStatus {
+  PENDING = "PENDING",
+  PAID = "PAID",
+  SHIPPED = "SHIPPED",
+  DELIVERED = "DELIVERED",
+  PICKED_UP = "PICKED_UP",
+  CANCELED = "CANCELED",
+}
+
+export enum PaymentStatus {
+  PENDING = "PENDING",
+  PAID = "PAID",
+  FAILED = "FAILED",
+  REFUNDED = "REFUNDED",
+}
+
+export type {
+  Order,
+  StoreOrder,
+  OrderItem,
+  Product,
+  Store,
+  ShippingAddress,
+};
+
 
 export interface OrderItemWithProduct extends OrderItem {
   product: Product;

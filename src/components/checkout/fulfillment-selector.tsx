@@ -1,6 +1,6 @@
 "use client";
 
-import { FulfillmentType } from "@prisma/client";
+import { FulfillmentType } from "@/types/order";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
@@ -38,10 +38,10 @@ export function FulfillmentSelector({
               htmlFor={`${storeName}-delivery`}
               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-all"
             >
-              <Truck className="mb-3 h-6 w-6" />
+              <Truck className="mb-2 sm:mb-3 h-5 w-5 sm:h-6 sm:w-6" />
               <div className="text-center">
-                <p className="font-semibold">Entrega</p>
-                <p className="text-xs text-muted-foreground">Receba no seu endereço</p>
+                <p className="font-semibold text-sm sm:text-base">Entrega</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground hidden sm:block">Receba no seu endereço</p>
               </div>
             </Label>
           </div>
@@ -56,10 +56,10 @@ export function FulfillmentSelector({
               htmlFor={`${storeName}-pickup`}
               className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-all"
             >
-              <Store className="mb-3 h-6 w-6" />
+              <Store className="mb-2 sm:mb-3 h-5 w-5 sm:h-6 sm:w-6" />
               <div className="text-center">
-                <p className="font-semibold">Retirada</p>
-                <p className="text-xs text-muted-foreground">Retire na loja física</p>
+                <p className="font-semibold text-sm sm:text-base">Retirada</p>
+                <p className="text-[10px] sm:text-xs text-muted-foreground hidden sm:block">Retire na loja física</p>
               </div>
             </Label>
           </div>

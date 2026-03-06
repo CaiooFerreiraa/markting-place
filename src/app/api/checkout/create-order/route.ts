@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { FulfillmentType, OrderStatus } from "@prisma/client";
+import { FulfillmentType, OrderStatus } from "@/types/order";
 import { pluginRegistry } from "@/lib/plugins/registry";
 import { initPlugins } from "@/lib/plugins";
 
@@ -51,7 +51,7 @@ export async function POST(req: NextRequest) {
       if (!storeGroups[dbProduct.storeId]) {
         storeGroups[dbProduct.storeId] = { items: [], subtotal: 0 };
       }
-      
+
       storeGroups[dbProduct.storeId].items.push({
         productId: dbProduct.id,
         quantity: item.quantity,
@@ -88,10 +88,10 @@ export async function POST(req: NextRequest) {
       // Create StoreOrders and OrderItems
       for (const [storeId, group] of Object.entries(storeGroups)) {
         const fulfillment = fulfillmentChoices?.[storeId] || FulfillmentType.PICKUP;
-        
+
         let storeDiscount = 0;
         const storeCoupon = appliedCoupons?.find((c: any) => c.storeId === storeId);
-        
+
         if (storeCoupon) {
           const coupon = await tx.coupon.findUnique({
             where: { id: storeCoupon.couponId, isActive: true }

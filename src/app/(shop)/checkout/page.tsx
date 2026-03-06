@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FulfillmentType } from "@prisma/client";
+import { FulfillmentType } from "@/types/order";
 import { useCartStore } from "@/store/use-cart-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -191,22 +191,22 @@ export default function CheckoutPage() {
         <Button variant="ghost" size="icon" asChild>
           <Link href="/"><ArrowLeft className="h-5 w-5" /></Link>
         </Button>
-        <h1 className="text-3xl font-bold">Checkout</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold">Checkout</h1>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-        <div className="lg:col-span-2 space-y-10">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-10">
+        <div className="lg:col-span-2 space-y-8 sm:space-y-10">
           {/* 1. Fulfillment Selection */}
           <section>
-            <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm">1</span>
+            <h2 className="text-lg sm:text-xl font-semibold mb-6 flex items-center gap-3">
+              <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground text-xs sm:text-sm font-bold shrink-0">1</span>
               Como deseja receber seus produtos?
             </h2>
             {groupedItems.map((group: any) => (
               <FulfillmentSelector
                 key={group.storeId}
                 storeName={group.storeName}
-                value={fulfillmentChoices[group.storeId] || FulfillmentType.DELIVERY}
+                value={(fulfillmentChoices[group.storeId] || FulfillmentType.DELIVERY) as any}
                 onChange={(val) => handleFulfillmentChange(group.storeId, val)}
               />
             ))}
@@ -215,13 +215,13 @@ export default function CheckoutPage() {
           {/* 2. Shipping Address */}
           {isDeliveryRequired && (
             <section>
-              <h2 className="text-xl font-semibold mb-6 flex items-center gap-2">
-                <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground text-sm">2</span>
+              <h2 className="text-lg sm:text-xl font-semibold mb-6 flex items-center gap-3">
+                <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground text-xs sm:text-sm font-bold shrink-0">2</span>
                 Endereço de Entrega
               </h2>
-              <Card>
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-6 gap-6">
+              <Card className="border-none sm:border shadow-sm sm:shadow-md">
+                <CardContent className="p-4 sm:p-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-6 gap-4 sm:gap-6">
                     <div className="sm:col-span-4">
                       <Label htmlFor="street">Logradouro / Rua *</Label>
                       <Input id="street" name="street" value={address.street} onChange={handleAddressChange} placeholder="Rua das Palmeiras" className="mt-2" />
@@ -257,11 +257,11 @@ export default function CheckoutPage() {
         <div className="lg:col-span-1">
           <div className="sticky top-24">
             <Card className="border-2 border-primary/10 shadow-lg">
-              <CardHeader>
-                <CardTitle>Resumo do Pedido</CardTitle>
-                <CardDescription>Confira seus itens antes de finalizar.</CardDescription>
+              <CardHeader className="p-4 sm:p-6">
+                <CardTitle className="text-lg sm:text-xl">Resumo do Pedido</CardTitle>
+                <CardDescription className="text-xs sm:text-sm">Confira seus itens antes de finalizar.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent className="p-4 sm:p-6 pt-0 sm:pt-0 space-y-4">
                 <ScrollArea className="max-h-[300px] -mx-2 px-2">
                   {groupedItems.map((group: any) => (
                     <div key={group.storeId} className="mb-6 last:mb-0">
@@ -270,9 +270,9 @@ export default function CheckoutPage() {
                       </p>
                       <div className="space-y-2">
                         {group.items.map((item: any) => (
-                          <div key={item.id} className="flex justify-between text-sm">
-                            <span className="text-muted-foreground">{item.quantity}x {item.product.name}</span>
-                            <span className="font-medium">{formatCurrency(item.price * item.quantity)}</span>
+                          <div key={item.id} className="flex justify-between items-center text-sm">
+                            <span className="text-muted-foreground truncate max-w-[180px]">{item.quantity}x {item.product.name}</span>
+                            <span className="font-semibold">{formatCurrency(item.price * item.quantity)}</span>
                           </div>
                         ))}
                       </div>
@@ -323,13 +323,13 @@ export default function CheckoutPage() {
                     <span className="text-green-600 font-medium">Grátis</span>
                   </div>
                   <Separator />
-                  <div className="flex justify-between text-xl font-bold pt-2">
+                  <div className="flex justify-between text-lg sm:text-xl font-bold pt-2">
                     <span>Total</span>
                     <span>{formatCurrency(
                       totalPrice - Object.keys(appliedCoupons).reduce((acc: any, storeId: any) => {
                         const group = groupedItems.find(g => g.storeId === storeId);
                         if (!group) return acc;
-                        const subtotal = group.items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                        const subtotal = group.items.reduce((sum: any, item: any) => sum + item.price * item.quantity, 0);
                         return acc + calculateStoreDiscount(storeId, subtotal);
                       }, 0)
                     )}</span>
@@ -354,7 +354,7 @@ export default function CheckoutPage() {
             </Card>
           </div>
         </div>
-      </div>
-    </div>
+      </div >
+    </div >
   );
 }

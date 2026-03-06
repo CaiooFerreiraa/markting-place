@@ -1,7 +1,7 @@
 "use client";
 
 import { formatCurrency } from "@/lib/utils";
-import { Order, StoreOrder, OrderItem, Product, Store, ShippingAddress, OrderStatus, FulfillmentType } from "@prisma/client";
+import { Order, StoreOrder, OrderItem, Product, Store, ShippingAddress, OrderStatus, FulfillmentType } from "@/types/order";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -77,9 +77,9 @@ export function OrderDetails({ order }: OrderDetailsProps) {
                     <div key={item.id} className="p-4 flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         {item.product.images[0] && (
-                          <img 
-                            src={item.product.images[0]} 
-                            alt={item.product.name} 
+                          <img
+                            src={item.product.images[0]}
+                            alt={item.product.name}
                             className="w-16 h-16 object-cover rounded-md border"
                           />
                         )}
@@ -115,10 +115,10 @@ export function OrderDetails({ order }: OrderDetailsProps) {
                             <MapIcon className="h-4 w-4 mt-0.5 text-muted-foreground" />
                             <div className="w-full">
                               <p className="font-medium">Navegação:</p>
-                              <NavLinks 
-                                lat={Number(storeOrder.store.lat)} 
-                                lng={Number(storeOrder.store.lng)} 
-                                label={storeOrder.store.name} 
+                              <NavLinks
+                                lat={Number(storeOrder.store.lat)}
+                                lng={Number(storeOrder.store.lng)}
+                                label={storeOrder.store.name}
                               />
                             </div>
                           </div>
