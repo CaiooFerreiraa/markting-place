@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }
 
     // Step 1: Create the store and check for Stripe Account in a transaction
-    const result = await db.$transaction(async (tx) => {
+    const result = await db.$transaction(async (tx: any) => {
       const store = await tx.store.create({
         data: {
           ...validatedData,
