@@ -71,7 +71,7 @@ export async function POST(req: NextRequest) {
     }
 
     // 3. Start Prisma Transaction
-    const order = await db.$transaction(async (tx) => {
+    const order = await db.$transaction(async (tx: any) => {
       // Create main Order
       const newOrder = await tx.order.create({
         data: {
