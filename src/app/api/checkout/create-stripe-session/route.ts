@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/auth';
 import { db } from '@/lib/db';
 import { stripe } from '@/lib/stripe';
-import type { StoreOrder, OrderItem, Product, Store, User } from '@prisma/client';
+import type { StoreOrder, OrderItem, Product, Store, User } from '@/types/order';
 
 type StoreOrderWithDetails = StoreOrder & {
   store: Store & {

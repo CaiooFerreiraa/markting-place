@@ -23,6 +23,7 @@ export {
   type Product,
   type Store,
   type ShippingAddress,
+  type User,
   OrderStatus,
   PaymentStatus,
   FulfillmentType,
