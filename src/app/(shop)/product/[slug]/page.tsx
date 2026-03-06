@@ -223,7 +223,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <div>
             <h3 className="font-bold text-lg mb-4">Sobre este item</h3>
             <ul className="list-disc pl-5 space-y-3 text-sm leading-relaxed text-foreground">
-              {product.description?.split('\n').filter(line => line.trim().length > 0).map((line: string, i: number) => (
+              {product.description?.split('\n').filter((line: string) => line.trim().length > 0).map((line: string, i: number) => (
                 <li key={i}>{line}</li>
               )) || <li>Detalhes não informados pela loja.</li>}
             </ul>
