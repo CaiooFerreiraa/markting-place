@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import Link from "next/link";
 import Image from "next/image";
 import { formatCurrency } from "@/lib/utils";
-import { ShoppingBag, ArrowRight, Store as StoreIcon, Star } from "lucide-react";
+import { ShoppingBag, ArrowRight, Store as StoreIcon, Star, Car, Smartphone, Wrench, Shirt, Dumbbell, Sofa, Laptop, Home as HomeIcon, Headphones, LayoutGrid, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,11 +28,35 @@ async function getRecentStores() {
   });
 }
 
+async function getCategories() {
+  return await db.category.findMany({
+    take: 12,
+    orderBy: {
+      name: 'asc'
+    }
+  });
+}
+
 export default async function Home() {
-  const [products, stores] = await Promise.all([
+  const [products, stores, categories] = await Promise.all([
     getFeaturedProducts(),
-    getRecentStores()
+    getRecentStores(),
+    getCategories()
   ]);
+
+  const getCategoryIcon = (name: string) => {
+    const n = name.toLowerCase();
+    if (n.includes('carro') || n.includes('moto') || n.includes('veículo')) return <Car className="h-8 w-8 text-primary" />;
+    if (n.includes('celular') || n.includes('smartphone') || n.includes('telefone')) return <Smartphone className="h-8 w-8 text-primary" />;
+    if (n.includes('ferramenta')) return <Wrench className="h-8 w-8 text-primary" />;
+    if (n.includes('roupa') || n.includes('moda') || n.includes('bolsa') || n.includes('calçado')) return <Shirt className="h-8 w-8 text-primary" />;
+    if (n.includes('esporte') || n.includes('fitness')) return <Dumbbell className="h-8 w-8 text-primary" />;
+    if (n.includes('casa') || n.includes('móvel') || n.includes('decoração') || n.includes('eletrodoméstico')) return <Sofa className="h-8 w-8 text-primary" />;
+    if (n.includes('informática') || n.includes('computador')) return <Laptop className="h-8 w-8 text-primary" />;
+    if (n.includes('imóvel') || n.includes('imóveis')) return <HomeIcon className="h-8 w-8 text-primary" />;
+    if (n.includes('áudio') || n.includes('eletrônico') || n.includes('fone')) return <Headphones className="h-8 w-8 text-primary" />;
+    return <LayoutGrid className="h-8 w-8 text-primary" />;
+  };
 
   return (
     <main className="flex flex-col min-h-screen">
@@ -63,8 +87,39 @@ export default async function Home() {
         <div className="absolute right-0 top-0 w-1/3 h-full bg-primary/5 -skew-x-12 transform translate-x-1/2 hidden lg:block" />
       </section>
 
+      {/* Categories */}
+      <section className="py-12 px-4 container mx-auto">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-2xl font-bold tracking-tight">Categorias</h2>
+          <Link href="/search" className="text-sm font-medium text-primary hover:underline">
+            Mostrar todas as categorias
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {categories.length === 0 ? (
+            <p className="text-muted-foreground col-span-full">Nenhuma categoria encontrada.</p>
+          ) : (
+            categories.map((category) => (
+              <Link key={category.id} href={`/search?category=${category.slug}`}>
+                <Card className="flex items-center hover:border-primary/50 transition-colors shadow-sm cursor-pointer h-24 overflow-hidden group">
+                  <div className="w-1/3 h-full bg-muted/20 flex flex-col items-center justify-center border-r group-hover:bg-primary/5 transition-colors">
+                    {getCategoryIcon(category.name)}
+                  </div>
+                  <div className="w-2/3 px-4 py-2">
+                    <h3 className="font-semibold text-sm leading-tight group-hover:text-primary transition-colors line-clamp-2">
+                      {category.name}
+                    </h3>
+                  </div>
+                </Card>
+              </Link>
+            ))
+          )}
+        </div>
+      </section>
+
       {/* Featured Products */}
-      <section className="py-20 px-4 container mx-auto">
+      <section className="py-12 px-4 container mx-auto">
         <div className="flex items-center justify-between mb-10">
           <div>
             <h2 className="text-3xl font-bold tracking-tight">Novidades Fresquinhas</h2>

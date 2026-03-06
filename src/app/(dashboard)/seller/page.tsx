@@ -49,6 +49,12 @@ export default async function SellerDashboardPage({
     })
     : []
 
+  const serializableProducts = products.map((product) => ({
+    ...product,
+    priceRetail: Number(product.priceRetail),
+    priceWholesale: product.priceWholesale ? Number(product.priceWholesale) : null,
+  }))
+
   const totalProducts = stores.reduce((acc: any, store: any) => acc + store._count.products, 0)
 
   return (
@@ -144,7 +150,7 @@ export default async function SellerDashboardPage({
               </Button>
             )}
           </div>
-          <ProductList products={products as any} storeId={selectedStoreId || ""} />
+          <ProductList products={serializableProducts as any} storeId={selectedStoreId || ""} />
         </div>
       </div>
     </div>
