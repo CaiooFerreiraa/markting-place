@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, Ticket, Trash2, Edit } from "lucide-react";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
+import { Prisma } from "@prisma/client";
 
 export default async function SellerCouponsPage() {
   const session = await auth();
@@ -26,6 +27,10 @@ export default async function SellerCouponsPage() {
       createdAt: "desc",
     },
   });
+
+  type CouponWithStore = Prisma.CouponGetPayload<{
+    include: { store: true };
+  }>;
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">
@@ -51,7 +56,7 @@ export default async function SellerCouponsPage() {
             </CardContent>
           </Card>
         ) : (
-          coupons.map((coupon) => (
+          coupons.map((coupon: CouponWithStore) => (
             <Card key={coupon.id}>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <div className="space-y-1">

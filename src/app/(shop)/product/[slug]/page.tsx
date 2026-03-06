@@ -1,4 +1,5 @@
 import { db } from "@/lib/db";
+import { Prisma } from "@prisma/client";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { ProductJsonLd } from "@/components/seo/json-ld";
@@ -94,6 +95,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
       category: true,
     }
   });
+
+  type ProductWithRelations = Prisma.ProductGetPayload<{
+    include: { store: true; category: true };
+  }>;
 
   // Convert Prisma Decimal to number to allow passing to Client Components
   const serializableProduct = {
@@ -331,7 +336,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                       <span className="font-semibold text-primary line-clamp-2">{product.name}</span>
                     </div>
                   </th>
-                  {similarProducts.slice(0, 4).map((sim) => (
+                  {similarProducts.slice(0, 4).map((sim: ProductWithRelations) => (
                     <th key={sim.id} className="font-normal w-48 border-b p-4 border-l border-border/50 align-bottom">
                       <Link href={`/product/${sim.id}`} className="flex flex-col items-center text-center group">
                         <div className="h-24 w-24 relative mb-2">
@@ -347,28 +352,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <tr>
                   <td className="font-bold p-4 bg-muted/20">Preço</td>
                   <td className="p-4 text-center font-bold">{formatCurrency(Number(product.priceRetail))}</td>
-                  {similarProducts.slice(0, 4).map((sim) => (
+                  {similarProducts.slice(0, 4).map((sim: ProductWithRelations) => (
                     <td key={`price-${sim.id}`} className="p-4 border-l border-border/50 text-center">{formatCurrency(Number(sim.priceRetail))}</td>
                   ))}
                 </tr>
                 <tr>
                   <td className="font-bold p-4 bg-muted/20">Vendido por</td>
                   <td className="p-4 text-center text-primary">{product.store.name}</td>
-                  {similarProducts.slice(0, 4).map((sim) => (
+                  {similarProducts.slice(0, 4).map((sim: ProductWithRelations) => (
                     <td key={`store-${sim.id}`} className="p-4 border-l border-border/50 text-center text-primary">{sim.store.name}</td>
                   ))}
                 </tr>
                 <tr>
                   <td className="font-bold p-4 bg-muted/20">Categoria</td>
                   <td className="p-4 text-center">{product.category.name}</td>
-                  {similarProducts.slice(0, 4).map((sim) => (
+                  {similarProducts.slice(0, 4).map((sim: ProductWithRelations) => (
                     <td key={`cat-${sim.id}`} className="p-4 border-l border-border/50 text-center">{sim.category.name}</td>
                   ))}
                 </tr>
                 <tr>
                   <td className="font-bold p-4 bg-muted/20">Condição</td>
                   <td className="p-4 text-center">Novo</td>
-                  {similarProducts.slice(0, 4).map((sim) => (
+                  {similarProducts.slice(0, 4).map((sim: ProductWithRelations) => (
                     <td key={`cond-${sim.id}`} className="p-4 border-l border-border/50 text-center">Novo</td>
                   ))}
                 </tr>
@@ -377,7 +382,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   <td className="p-4 text-center flex justify-center text-yellow-500">
                     <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current opacity-30" />
                   </td>
-                  {similarProducts.slice(0, 4).map((sim) => (
+                  {similarProducts.slice(0, 4).map((sim: ProductWithRelations) => (
                     <td key={`rate-${sim.id}`} className="p-4 border-l border-border/50 text-center">
                       <div className="flex justify-center text-yellow-500">
                         <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current" /> <Star className="h-4 w-4 fill-current opacity-50" /> <Star className="h-4 w-4 fill-current opacity-20" />
@@ -398,7 +403,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <section className="mb-12">
           <h2 className="text-2xl font-bold mb-6">Semelhantes que você pode gostar</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {similarProducts.map((sim) => (
+            {similarProducts.map((sim: ProductWithRelations) => (
               <Card key={`rec-grid-${sim.id}`} className="group overflow-hidden border border-border/50 shadow-sm hover:shadow-md transition-all duration-300 bg-background flex flex-col h-full">
                 <Link href={`/product/${sim.id}`} className="flex-1 flex flex-col">
                   <div className="relative aspect-square overflow-hidden bg-muted/30 p-2">

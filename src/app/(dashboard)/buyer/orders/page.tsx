@@ -6,6 +6,7 @@ import { formatCurrency } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { ShoppingBag } from "lucide-react";
+import { Prisma } from "@prisma/client";
 
 export default async function BuyerOrdersPage() {
   const session = await auth();
@@ -26,6 +27,19 @@ export default async function BuyerOrdersPage() {
     orderBy: { createdAt: "desc" }
   });
 
+  type OrderWithRelations = Prisma.OrderGetPayload<{
+    include: {
+      storeOrders: {
+        include: {
+          store: true;
+          orderItems: {
+            include: { product: true };
+          };
+        };
+      };
+    };
+  }>;
+
   return (
     <div className="container mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold mb-8">Meus Pedidos</h1>
@@ -42,7 +56,7 @@ export default async function BuyerOrdersPage() {
         </Card>
       ) : (
         <div className="space-y-6">
-          {orders.map((order) => (
+          {orders.map((order: OrderWithRelations) => (
             <Card key={order.id} className="overflow-hidden">
               <CardHeader className="bg-muted/50 border-b flex flex-row items-center justify-between py-4">
                 <div className="flex gap-6 text-sm">

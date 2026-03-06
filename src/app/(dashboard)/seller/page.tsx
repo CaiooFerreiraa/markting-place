@@ -9,6 +9,7 @@ import { ProductList } from "@/components/seller/product-list"
 import { Button } from "@/components/ui/button"
 import { SubscriptionCard } from "@/components/dashboard/seller/subscription-card"
 import { PaymentSetup } from "@/components/dashboard/seller/payment-setup"
+import { Prisma } from "@prisma/client"
 
 export default async function SellerDashboardPage({
   searchParams,
@@ -39,8 +40,12 @@ export default async function SellerDashboardPage({
     }
   })
 
+  type StoreWithCount = Prisma.StoreGetPayload<{
+    include: { _count: { select: { products: true } } }
+  }>;
+
   const selectedStoreId = searchParams.store || stores[0]?.id
-  const selectedStore = stores.find((s: any) => s.id === selectedStoreId)
+  const selectedStore = stores.find((s: StoreWithCount) => s.id === selectedStoreId)
 
   const products = selectedStoreId
     ? await db.product.findMany({
@@ -49,13 +54,15 @@ export default async function SellerDashboardPage({
     })
     : []
 
-  const serializableProducts = products.map((product: any) => ({
+  type Product = Prisma.ProductGetPayload<{}>;
+
+  const serializableProducts = products.map((product: Product) => ({
     ...product,
     priceRetail: Number(product.priceRetail),
     priceWholesale: product.priceWholesale ? Number(product.priceWholesale) : null,
   }))
 
-  const totalProducts = stores.reduce((acc: any, store: any) => acc + store._count.products, 0)
+  const totalProducts = stores.reduce((acc: number, store: StoreWithCount) => acc + store._count.products, 0)
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">

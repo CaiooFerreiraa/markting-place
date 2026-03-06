@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Store, ShoppingCart } from "lucide-react";
+import { Prisma } from "@prisma/client";
 
 export default async function SellerOrdersPage() {
   const session = await auth();
@@ -42,6 +43,17 @@ export default async function SellerOrdersPage() {
     orderBy: { createdAt: "desc" }
   });
 
+  type StoreOrderWithRelations = Prisma.StoreOrderGetPayload<{
+    include: {
+      orderItems: {
+        include: { product: true };
+      };
+      order: {
+        include: { user: true };
+      };
+    };
+  }>;
+
   return (
     <div className="container mx-auto py-10 px-4">
       <h1 className="text-3xl font-bold mb-8">Gestão de Pedidos: {store.name}</h1>
@@ -55,7 +67,7 @@ export default async function SellerOrdersPage() {
         </Card>
       ) : (
         <div className="grid gap-6">
-          {storeOrders.map((storeOrder: any) => (
+          {storeOrders.map((storeOrder: StoreOrderWithRelations) => (
             <Card key={storeOrder.id} className="overflow-hidden">
               <CardHeader className="bg-muted/30 border-b py-4 flex flex-row items-center justify-between">
                 <div>
@@ -75,7 +87,7 @@ export default async function SellerOrdersPage() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {storeOrder.orderItems.map((item: any) => (
+                  {storeOrder.orderItems.map((item) => (
                     <div key={item.id} className="flex justify-between items-center text-sm">
                       <div className="flex gap-4 items-center">
                         <div className="w-10 h-10 bg-muted rounded overflow-hidden flex-shrink-0">
