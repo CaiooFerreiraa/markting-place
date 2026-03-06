@@ -37,7 +37,7 @@ export function StoreList({ stores }: StoreListProps) {
 
   const isOpen = (operatingHours: any) => {
     if (!operatingHours) return false
-    
+
     const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
     const dayName = days[now.getDay()]
     const hours = operatingHours as OperatingHours
@@ -47,7 +47,7 @@ export function StoreList({ stores }: StoreListProps) {
 
     const [openH, openM] = today.open.split(':').map(Number)
     const [closeH, closeM] = today.close.split(':').map(Number)
-    
+
     const currentMinutes = now.getHours() * 60 + now.getMinutes()
     const openMinutes = openH * 60 + openM
     const closeMinutes = closeH * 60 + closeM
@@ -72,7 +72,7 @@ export function StoreList({ stores }: StoreListProps) {
 
   return (
     <div className="grid gap-4 md:grid-cols-2">
-      {stores.map((store) => {
+      {stores.map((store: any) => {
         const open = isOpen(store.operatingHours)
         return (
           <Card key={store.id} className="overflow-hidden">

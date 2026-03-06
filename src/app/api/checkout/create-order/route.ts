@@ -137,7 +137,7 @@ export async function POST(req: NextRequest) {
         });
 
         await tx.orderItem.createMany({
-          data: group.items.map(item => ({
+          data: group.items.map((item: any) => ({
             storeOrderId: storeOrder.id,
             productId: item.productId,
             quantity: item.quantity,

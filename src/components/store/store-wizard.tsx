@@ -77,13 +77,13 @@ export function StoreWizard() {
 
   const handleGeocode = async () => {
     if (!formData.street || !formData.city || !formData.state) return;
-    
+
     setGeocoding(true);
     try {
       const address = `${formData.street}, ${formData.number}, ${formData.district}, ${formData.city}, ${formData.state}, Brasil`;
       const response = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(address)}`);
       const data = await response.json();
-      
+
       if (data && data.length > 0) {
         const { lat, lon } = data[0];
         setFormData(prev => ({ ...prev, lat: parseFloat(lat), lng: parseFloat(lon) }));
@@ -105,7 +105,7 @@ export function StoreWizard() {
 
   const handleSubmit = async () => {
     if (!validateStep(3)) return;
-    
+
     setLoading(true);
     try {
       const res = await fetch("/api/stores", {
@@ -122,16 +122,16 @@ export function StoreWizard() {
         }, 3000);
       } else {
         const error = await res.json();
-        toast({ 
-          title: "Erro ao criar loja", 
+        toast({
+          title: "Erro ao criar loja",
           description: error.error || "Tente novamente mais tarde.",
           variant: "destructive"
         });
       }
     } catch (err) {
       console.error(err);
-      toast({ 
-        title: "Erro inesperado", 
+      toast({
+        title: "Erro inesperado",
         description: "Ocorreu um erro ao processar sua solicitação.",
         variant: "destructive"
       });
@@ -174,7 +174,7 @@ export function StoreWizard() {
           </div>
           <h2 className="text-3xl font-bold mb-4">Loja Criada!</h2>
           <p className="text-muted-foreground mb-8">
-            Parabéns! Sua loja <strong>{formData.name}</strong> foi criada com sucesso. 
+            Parabéns! Sua loja <strong>{formData.name}</strong> foi criada com sucesso.
             Estamos redirecionando você para o painel do vendedor...
           </p>
           <Loader2 className="h-8 w-8 animate-spin mx-auto text-primary" />
@@ -192,10 +192,10 @@ export function StoreWizard() {
         </div>
         <Progress value={(step / 3) * 100} className="h-2" />
       </CardHeader>
-      
+
       <CardContent className="pt-6">
         <div className="mb-8 flex justify-between px-2 overflow-x-auto pb-2">
-          {[1, 2, 3].map((s) => (
+          {[1, 2, 3].map((s: any) => (
             <div key={s} className={`flex items-center gap-2 pb-2 border-b-2 transition-colors min-w-fit px-4 ${step === s ? "border-primary text-primary font-bold" : "border-transparent text-muted-foreground"}`}>
               <span className={`flex items-center justify-center w-6 h-6 rounded-full text-xs ${step === s ? "bg-primary text-primary-foreground" : "bg-muted"}`}>{s}</span>
               <span className="text-sm">{s === 1 ? "Informações Básicas" : s === 2 ? "Localização" : "Contato e Horários"}</span>
@@ -263,7 +263,7 @@ export function StoreWizard() {
                   {errors.state && <p className="text-xs text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" /> {errors.state}</p>}
                 </div>
               </div>
-              
+
               <div className="relative h-64 md:h-80 bg-muted rounded-lg overflow-hidden border">
                 {geocoding && (
                   <div className="absolute inset-0 z-10 bg-background/50 flex flex-col items-center justify-center backdrop-blur-sm">
@@ -271,7 +271,7 @@ export function StoreWizard() {
                     <p className="text-sm font-medium">Buscando endereço...</p>
                   </div>
                 )}
-                
+
                 {typeof window !== "undefined" && L ? (
                   <MapContainer center={[formData.lat, formData.lng]} zoom={15} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
                     <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
@@ -306,12 +306,12 @@ export function StoreWizard() {
                   {errors.email && <p className="text-xs text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" /> {errors.email}</p>}
                 </div>
               </div>
-              
+
               <div className="p-4 bg-muted rounded-lg border border-dashed text-center">
                 <p className="text-sm font-medium mb-1">Configuração de Horários</p>
                 <p className="text-xs text-muted-foreground">Você poderá configurar seus horários de funcionamento detalhadamente após criar a loja.</p>
               </div>
-              
+
               <div className="flex justify-between pt-4">
                 <Button variant="outline" onClick={prevStep}>Voltar</Button>
                 <Button onClick={handleSubmit} disabled={loading} size="lg" className="bg-green-600 hover:bg-green-700 text-white">

@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CheckCircle2, Package, Truck, Store as StoreIcon, MapPin, Calendar, Clock, Map as MapIcon } from "lucide-react";
-import dynamic from "next/dynamic"; 
+import dynamic from "next/dynamic";
 import { NavLinks } from "./nav-links";
 
 // Dynamically import Leaflet to avoid SSR issues
@@ -53,7 +53,7 @@ export function OrderDetails({ order }: OrderDetailsProps) {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          {order.storeOrders.map((storeOrder) => (
+          {order.storeOrders.map((storeOrder: any) => (
             <Card key={storeOrder.id} className="overflow-hidden">
               <CardHeader className="bg-muted/50 border-b">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -66,14 +66,14 @@ export function OrderDetails({ order }: OrderDetailsProps) {
                       </CardDescription>
                     </div>
                   </div>
-                  <Badge variant="outline" className={statusMap[storeOrder.status].color.replace('bg-', 'text-')}>
-                    {statusMap[storeOrder.status].label}
+                  <Badge variant="outline" className={statusMap[storeOrder.status as OrderStatus].color.replace('bg-', 'text-')}>
+                    {statusMap[storeOrder.status as OrderStatus].label}
                   </Badge>
                 </div>
               </CardHeader>
               <CardContent className="p-0">
                 <div className="divide-y">
-                  {storeOrder.orderItems.map((item) => (
+                  {storeOrder.orderItems.map((item: any) => (
                     <div key={item.id} className="p-4 flex items-center justify-between">
                       <div className="flex items-center gap-4">
                         {item.product.images[0] && (

@@ -41,7 +41,7 @@ export default function CheckoutPage() {
     setMounted(true);
     const groups = getGroupedItems();
     const initialChoices: Record<string, FulfillmentType> = {};
-    groups.forEach(g => {
+    groups.forEach((g: any) => {
       initialChoices[g.storeId] = FulfillmentType.DELIVERY;
     });
     setFulfillmentChoices(initialChoices);
@@ -106,10 +106,10 @@ export default function CheckoutPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          items: items.map(i => ({ id: i.id, quantity: i.quantity })),
+          items: items.map((i: any) => ({ id: i.id, quantity: i.quantity })),
           fulfillmentChoices,
           address: isDeliveryRequired ? address : null,
-          appliedCoupons: Object.keys(appliedCoupons).map(storeId => ({
+          appliedCoupons: Object.keys(appliedCoupons).map((storeId: any) => ({
             storeId,
             couponId: appliedCoupons[storeId].id,
             code: appliedCoupons[storeId].code

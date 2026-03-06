@@ -98,7 +98,7 @@ export function CouponForm({ stores }: CouponFormProps) {
                   <SelectValue placeholder="Selecione a loja" />
                 </SelectTrigger>
                 <SelectContent>
-                  {stores.map((store) => (
+                  {stores.map((store: any) => (
                     <SelectItem key={store.id} value={store.id}>
                       {store.name}
                     </SelectItem>

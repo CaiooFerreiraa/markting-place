@@ -72,7 +72,7 @@ export function CartSidebar() {
           <>
             <ScrollArea className="flex-1 pr-4 -mr-4">
               <div className="space-y-8">
-                {groupedItems.map((group) => (
+                {groupedItems.map((group: any) => (
                   <div key={group.storeId}>
                     <div className="flex items-center justify-between mb-2">
                       <Link
@@ -86,7 +86,7 @@ export function CartSidebar() {
                       </Badge>
                     </div>
                     <div className="space-y-2">
-                      {group.items.map((item) => (
+                      {group.items.map((item: any) => (
                         <CartItemCard key={item.id} item={item} />
                       ))}
                     </div>

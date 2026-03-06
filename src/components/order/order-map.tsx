@@ -35,17 +35,17 @@ export default function OrderMap({ stores }: OrderMapProps) {
   if (!mounted) return <div className="h-[300px] w-full bg-muted animate-pulse rounded-lg" />;
 
   // Filter stores with coordinates and get center
-  const validStores = stores.filter(s => s.lat && s.lng);
-  
+  const validStores = stores.filter((s: any) => s.lat && s.lng);
+
   if (validStores.length === 0) return null;
 
   const center: [number, number] = [Number(validStores[0].lat), Number(validStores[0].lng)];
 
   return (
     <div className="h-[300px] w-full rounded-lg overflow-hidden border z-0">
-      <MapContainer 
-        center={center} 
-        zoom={15} 
+      <MapContainer
+        center={center}
+        zoom={15}
         scrollWheelZoom={false}
         className="h-full w-full"
       >
@@ -53,9 +53,9 @@ export default function OrderMap({ stores }: OrderMapProps) {
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        {validStores.map((store) => (
-          <Marker 
-            key={store.id} 
+        {validStores.map((store: any) => (
+          <Marker
+            key={store.id}
             position={[Number(store.lat), Number(store.lng)]}
             icon={icon}
           >

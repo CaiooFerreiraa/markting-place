@@ -78,16 +78,16 @@ export function ProductWizard({ categories }: ProductWizardProps) {
     }
 
     setImages((prev) => [...prev, ...files]);
-    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    const newPreviews = files.map((file: any) => URL.createObjectURL(file));
     setPreviewUrls((prev) => [...prev, ...newPreviews]);
   };
 
   const removeImage = (index: number) => {
-    setImages((prev) => prev.filter((_, i) => i !== index));
+    setImages((prev) => prev.filter((_: any, i: any) => i !== index));
     setPreviewUrls((prev) => {
       const url = prev[index];
       URL.revokeObjectURL(url);
-      return prev.filter((_, i) => i !== index);
+      return prev.filter((_: any, i: any) => i !== index);
     });
   };
 
@@ -107,7 +107,7 @@ export function ProductWizard({ categories }: ProductWizardProps) {
     try {
       // 1. Upload Images
       const formData = new FormData();
-      images.forEach((file) => formData.append("files", file));
+      images.forEach((file: any) => formData.append("files", file));
 
       const uploadRes = await fetch("/api/products/upload", {
         method: "POST",
@@ -168,7 +168,7 @@ export function ProductWizard({ categories }: ProductWizardProps) {
   return (
     <div className="bg-card border rounded-lg p-6 shadow-sm">
       <div className="flex justify-between mb-8 items-center">
-        {[1, 2, 3].map((i) => (
+        {[1, 2, 3].map((i: any) => (
           <div key={i} className="flex items-center">
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${step >= i ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"
@@ -215,7 +215,7 @@ export function ProductWizard({ categories }: ProductWizardProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories.map((category) => (
+                        {categories.map((category: any) => (
                           <SelectItem key={category.id} value={category.id}>
                             {category.name}
                           </SelectItem>
@@ -336,7 +336,7 @@ export function ProductWizard({ categories }: ProductWizardProps) {
 
               {previewUrls.length > 0 && (
                 <div className="grid grid-cols-4 gap-4 mt-6">
-                  {previewUrls.map((url, index) => (
+                  {previewUrls.map((url: any, index: any) => (
                     <div key={url} className="relative aspect-square border rounded-md overflow-hidden group">
                       <img src={url} alt={`Preview ${index}`} className="w-full h-full object-cover" />
                       <button

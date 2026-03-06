@@ -22,7 +22,7 @@ export function CartSidebarWidget() {
           Seu Carrinho
         </h3>
         <div className="flex flex-col gap-4">
-          {items.slice(0, 3).map((item) => (
+          {items.slice(0, 3).map((item: any) => (
             <div key={item.id} className="group flex items-start gap-3">
               <div className="relative h-14 w-14 bg-muted/30 rounded border flex-shrink-0 p-1">
                 {item.product.images?.[0] ? (

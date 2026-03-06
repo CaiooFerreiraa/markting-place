@@ -70,7 +70,7 @@ export function FilterSidebar({ categories }: FilterSidebarProps) {
         </h3>
         <ScrollArea className="h-[250px] pr-4">
           <div className="space-y-1">
-            {categories.map((c) => (
+            {categories.map((c: any) => (
               <button
                 key={c.id}
                 onClick={() => toggleCategory(c.slug)}

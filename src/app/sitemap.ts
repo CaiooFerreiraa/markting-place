@@ -9,7 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   });
 
-  const productSitemap: MetadataRoute.Sitemap = products.map((product) => ({
+  const productSitemap: MetadataRoute.Sitemap = products.map((product: any) => ({
     url: `${process.env.NEXT_PUBLIC_BASE_URL || "https://marketplace-vdc.com"}/product/${product.id}`,
     lastModified: product.updatedAt,
     changeFrequency: "weekly",
