@@ -87,7 +87,7 @@ export default function CheckoutPage() {
     return 0;
   };
 
-  const isDeliveryRequired = Object.values(fulfillmentChoices).some(v => v === FulfillmentType.DELIVERY);
+  const isDeliveryRequired = Object.values(fulfillmentChoices).some((v: any) => v === FulfillmentType.DELIVERY);
 
   const handleSubmit = async () => {
     try {
@@ -207,7 +207,7 @@ export default function CheckoutPage() {
                 key={group.storeId}
                 storeName={group.storeName}
                 value={(fulfillmentChoices[group.storeId] || FulfillmentType.DELIVERY) as any}
-                onChange={(val) => handleFulfillmentChange(group.storeId, val)}
+                onChange={(val: any) => handleFulfillmentChange(group.storeId, val)}
               />
             ))}
           </section>
@@ -283,7 +283,7 @@ export default function CheckoutPage() {
                           storeName={group.storeName}
                           subtotal={group.items.reduce((acc: any, item: any) => acc + item.price * item.quantity, 0)}
                           appliedCoupon={appliedCoupons[group.storeId]}
-                          onApply={(coupon) => handleApplyCoupon(group.storeId, coupon)}
+                          onApply={(coupon: any) => handleApplyCoupon(group.storeId, coupon)}
                           onRemove={() => handleRemoveCoupon(group.storeId)}
                         />
                       </div>
@@ -310,7 +310,7 @@ export default function CheckoutPage() {
                       <span>Total Descontos</span>
                       <span>-{formatCurrency(
                         Object.keys(appliedCoupons).reduce((acc: any, storeId: any) => {
-                          const group = groupedItems.find(g => g.storeId === storeId);
+                          const group = groupedItems.find((g: any) => g.storeId === storeId);
                           if (!group) return acc;
                           const subtotal = group.items.reduce((sum: any, item: any) => sum + item.price * item.quantity, 0);
                           return acc + calculateStoreDiscount(storeId, subtotal);
@@ -327,7 +327,7 @@ export default function CheckoutPage() {
                     <span>Total</span>
                     <span>{formatCurrency(
                       totalPrice - Object.keys(appliedCoupons).reduce((acc: any, storeId: any) => {
-                        const group = groupedItems.find(g => g.storeId === storeId);
+                        const group = groupedItems.find((g: any) => g.storeId === storeId);
                         if (!group) return acc;
                         const subtotal = group.items.reduce((sum: any, item: any) => sum + item.price * item.quantity, 0);
                         return acc + calculateStoreDiscount(storeId, subtotal);

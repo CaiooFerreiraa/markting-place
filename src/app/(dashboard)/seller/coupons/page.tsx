@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Plus, Ticket, Trash2, Edit } from "lucide-react";
 import Link from "next/link";
 import { formatCurrency } from "@/lib/utils";
-import { Prisma } from "@prisma/client";
 
 export default async function SellerCouponsPage() {
   const session = await auth();
