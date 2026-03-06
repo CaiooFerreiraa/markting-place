@@ -1,22 +1,16 @@
 import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
-import Google from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { db } from "@/lib/db"
 import { compare } from "bcryptjs"
-import { UserRole } from "@/types/order"
+import { authConfig } from "./auth.config"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(db) as any,
-  session: { strategy: "jwt", maxAge: 24 * 60 * 60 }, // 24 hours per CONTEXT.md
-  pages: {
-    signIn: "/login",
-  },
+  session: { strategy: "jwt", maxAge: 24 * 60 * 60 },
+  ...authConfig,
   providers: [
-    Google({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
+    ...authConfig.providers,
     Credentials({
       name: "credentials",
       credentials: {
@@ -54,20 +48,4 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       },
     }),
   ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.role = user.role as UserRole
-        token.id = user.id
-      }
-      return token
-    },
-    async session({ session, token }) {
-      if (token && session.user) {
-        session.user.role = token.role as UserRole
-        session.user.id = token.id as string
-      }
-      return session
-    },
-  },
 })
