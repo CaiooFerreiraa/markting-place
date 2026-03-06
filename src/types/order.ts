@@ -8,51 +8,40 @@ import type {
   User,
 } from "@prisma/client";
 
-export enum FulfillmentType {
-  PICKUP = "PICKUP",
-  DELIVERY = "DELIVERY",
-}
+import {
+  OrderStatus,
+  PaymentStatus,
+  FulfillmentType,
+} from "@prisma/client";
 
-export enum OrderStatus {
-  PENDING = "PENDING",
-  PAID = "PAID",
-  SHIPPED = "SHIPPED",
-  DELIVERED = "DELIVERED",
-  PICKED_UP = "PICKED_UP",
-  CANCELED = "CANCELED",
-}
+import { Decimal } from "@prisma/client/runtime/library";
 
-export enum PaymentStatus {
-  PENDING = "PENDING",
-  PAID = "PAID",
-  FAILED = "FAILED",
-  REFUNDED = "REFUNDED",
-}
-
-export type {
-  Order,
-  StoreOrder,
-  OrderItem,
-  Product,
-  Store,
-  ShippingAddress,
+export {
+  type Order,
+  type StoreOrder,
+  type OrderItem,
+  type Product,
+  type Store,
+  type ShippingAddress,
+  OrderStatus,
+  PaymentStatus,
+  FulfillmentType,
 };
 
-
-export interface OrderItemWithProduct extends OrderItem {
+export type OrderItemWithProduct = OrderItem & {
   product: Product;
-}
+};
 
-export interface StoreOrderWithDetails extends StoreOrder {
+export type StoreOrderWithDetails = StoreOrder & {
   store: Store;
   orderItems: OrderItemWithProduct[];
   order: Order & { user: User };
-}
+};
 
-export interface OrderWithDetails extends Order {
+export type OrderWithDetails = Order & {
   shippingAddress: ShippingAddress | null;
   storeOrders: StoreOrderWithDetails[];
-}
+};
 
 // Business logic types
 export type FulfillmentStatus = OrderStatus;

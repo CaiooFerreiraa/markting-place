@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { Store, ShoppingCart } from "lucide-react";
-import { StoreOrderWithDetails } from "@/types/order";
+import { StoreOrderWithDetails, OrderItemWithProduct } from "@/types/order";
 
 export default async function SellerOrdersPage() {
   const session = await auth();
@@ -75,7 +75,7 @@ export default async function SellerOrdersPage() {
               </CardHeader>
               <CardContent className="p-6">
                 <div className="space-y-4">
-                  {storeOrder.orderItems.map((item) => (
+                  {storeOrder.orderItems.map((item: OrderItemWithProduct) => (
                     <div key={item.id} className="flex justify-between items-center text-sm">
                       <div className="flex gap-4 items-center">
                         <div className="w-10 h-10 bg-muted rounded overflow-hidden flex-shrink-0">
