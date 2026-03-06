@@ -100,7 +100,7 @@ export default async function Home() {
           {categories.length === 0 ? (
             <p className="text-muted-foreground col-span-full">Nenhuma categoria encontrada.</p>
           ) : (
-            categories.map((category) => (
+            categories.map((category: any) => (
               <Link key={category.id} href={`/search?category=${category.slug}`}>
                 <Card className="flex items-center hover:border-primary/50 transition-colors shadow-sm cursor-pointer h-24 overflow-hidden group">
                   <div className="w-1/3 h-full bg-muted/20 flex flex-col items-center justify-center border-r group-hover:bg-primary/5 transition-colors">

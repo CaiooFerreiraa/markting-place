@@ -8,7 +8,7 @@ interface CartStore {
   removeItem: (productId: string) => void;
   updateQuantity: (productId: string, quantity: number) => void;
   clearCart: () => void;
-  
+
   // Computed values
   getTotalItems: () => number;
   getTotalPrice: () => number;
@@ -22,11 +22,11 @@ export const useCartStore = create<CartStore>()(
 
       addItem: (newItem: CartItem) => {
         const { items } = get();
-        const existingItem = items.find((item) => item.id === newItem.id);
+        const existingItem = items.find((item: any) => item.id === newItem.id);
 
         if (existingItem) {
           set({
-            items: items.map((item) =>
+            items: items.map((item: any) =>
               item.id === newItem.id
                 ? { ...item, quantity: item.quantity + newItem.quantity }
                 : item
@@ -39,7 +39,7 @@ export const useCartStore = create<CartStore>()(
 
       removeItem: (productId: string) => {
         set({
-          items: get().items.filter((item) => item.id !== productId),
+          items: get().items.filter((item: any) => item.id !== productId),
         });
       },
 
@@ -50,7 +50,7 @@ export const useCartStore = create<CartStore>()(
         }
 
         set({
-          items: get().items.map((item) =>
+          items: get().items.map((item: any) =>
             item.id === productId ? { ...item, quantity } : item
           ),
         });
@@ -59,18 +59,18 @@ export const useCartStore = create<CartStore>()(
       clearCart: () => set({ items: [] }),
 
       getTotalItems: () => {
-        return get().items.reduce((total, item) => total + item.quantity, 0);
+        return get().items.reduce((total: any, item: any) => total + item.quantity, 0);
       },
 
       getTotalPrice: () => {
-        return get().items.reduce((total, item) => total + item.price * item.quantity, 0);
+        return get().items.reduce((total: any, item: any) => total + item.price * item.quantity, 0);
       },
 
       getGroupedItems: () => {
         const { items } = get();
         const groups: Record<string, StoreCartGroup> = {};
 
-        items.forEach((item) => {
+        items.forEach((item: any) => {
           const storeId = item.store.id;
           if (!groups[storeId]) {
             groups[storeId] = {

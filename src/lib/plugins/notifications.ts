@@ -46,7 +46,7 @@ export async function sendSellerNotification(orderId: string) {
       }
 
       const itemsList = storeOrder.orderItems
-        .map((item) => `- ${item.product.name} (x${item.quantity})`)
+        .map((item: any) => `- ${item.product.name} (x${item.quantity})`)
         .join("\n");
 
       // 3. Robust logging mimicking an email send
