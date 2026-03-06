@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     }
 
     const lineItems = order.storeOrders.flatMap((so: StoreOrderWithDetails) =>
-      so.orderItems.map((item) => ({
+      so.orderItems.map((item: any) => ({
         price_data: {
           currency: 'brl',
           product_data: {
