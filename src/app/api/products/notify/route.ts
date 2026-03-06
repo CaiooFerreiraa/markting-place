@@ -41,7 +41,7 @@ export async function POST(req: Request) {
         email,
         productId,
       }
-    }).catch(async (e) => {
+    }).catch(async (e: any) => {
        // Fallback for missing unique constraint on id: 'placeholder'
        const existing = await db.productSubscription.findFirst({
          where: { email, productId }
