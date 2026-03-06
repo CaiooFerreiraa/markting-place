@@ -3,7 +3,6 @@ import { searchParamsCache } from "@/lib/search-params";
 import { SearchParams } from "nuqs/server";
 import { FilterSidebar } from "@/components/discovery/filter-sidebar";
 import { SortDropdown } from "@/components/discovery/sort-dropdown";
-import { Prisma } from "@prisma/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Store, Tag, FilterX } from "lucide-react";
@@ -17,7 +16,7 @@ interface SearchPageProps {
 export default async function SearchPage({ searchParams }: SearchPageProps) {
   const { q, category, minPrice, maxPrice, sort } = await searchParamsCache.parse(searchParams);
 
-  const where: Prisma.ProductWhereInput = {
+  const where = {
     AND: [
       q ? {
         OR: [
@@ -35,10 +34,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     ],
   };
 
-  const orderBy: Prisma.ProductOrderByWithRelationInput =
-    sort === 'price-asc' ? { priceRetail: 'asc' } :
-      sort === 'price-desc' ? { priceRetail: 'desc' } :
-        { createdAt: 'desc' };
+  const orderBy =
+    sort === 'price-asc' ? { priceRetail: 'asc' as const } :
+      sort === 'price-desc' ? { priceRetail: 'desc' as const } :
+        { createdAt: 'desc' as const };
 
   const products = await db.product.findMany({
     where,
