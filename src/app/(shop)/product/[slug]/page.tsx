@@ -7,7 +7,6 @@ import { CartSidebarWidget } from "@/components/cart/cart-sidebar-widget";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
-import type { Store } from "@prisma/client";
 import { Star, Leaf, ShieldCheck, Truck, Lock, RefreshCcw, MapPin, Check, ArrowLeft } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
