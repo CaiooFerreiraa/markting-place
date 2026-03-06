@@ -2,7 +2,7 @@
 
 import { useQueryState } from 'nuqs';
 import { searchParamsParsers } from '@/lib/search-params';
-import type { Category } from '@prisma/client';
+import type { Category } from '@/types/order';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';

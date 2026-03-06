@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { Store } from "@prisma/client";
+import { Store } from "@/types/order";
 
 // Fix Leaflet marker icons
 const icon = L.icon({

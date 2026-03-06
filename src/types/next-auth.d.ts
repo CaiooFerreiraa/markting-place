@@ -1,6 +1,6 @@
 import "next-auth"
 import { DefaultSession } from "next-auth"
-import { UserRole } from "@prisma/client"
+import { UserRole } from "@/types/order"
 
 declare module "next-auth" {
   interface Session {

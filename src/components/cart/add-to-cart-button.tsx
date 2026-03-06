@@ -1,7 +1,7 @@
 "use client";
 
 import { ShoppingCart } from "lucide-react";
-import type { Product, Store } from "@prisma/client";
+import type { Product, Store } from "@/types/order";
 import { useCartStore } from "@/store/use-cart-store";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/toast-hooks";

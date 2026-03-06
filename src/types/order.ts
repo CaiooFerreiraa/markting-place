@@ -6,12 +6,17 @@ import type {
   Store,
   ShippingAddress,
   User,
+  Category,
+  Promotion,
+  Coupon,
+  ProductSubscription,
 } from "@prisma/client";
 
 import {
   OrderStatus,
   PaymentStatus,
   FulfillmentType,
+  UserRole,
 } from "@prisma/client";
 
 import { Decimal } from "@prisma/client/runtime/library";
@@ -24,9 +29,14 @@ export {
   type Store,
   type ShippingAddress,
   type User,
+  type Category,
+  type Promotion,
+  type Coupon,
+  type ProductSubscription,
   OrderStatus,
   PaymentStatus,
   FulfillmentType,
+  UserRole,
 };
 
 export type OrderItemWithProduct = OrderItem & {

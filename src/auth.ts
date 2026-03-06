@@ -4,7 +4,7 @@ import Google from "next-auth/providers/google"
 import { PrismaAdapter } from "@auth/prisma-adapter"
 import { db } from "@/lib/db"
 import { compare } from "bcryptjs"
-import type { UserRole } from "@prisma/client"
+import { UserRole } from "@/types/order"
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(db) as any,
@@ -27,7 +27,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!credentials?.email || !credentials?.password) {
           return null
         }
-        
+
         const user = await db.user.findUnique({
           where: { email: credentials.email as string },
         })
