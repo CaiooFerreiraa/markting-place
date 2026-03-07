@@ -48,7 +48,8 @@ RUN addgroup --system --gid 1001 nodejs && \
   adduser --system --uid 1001 nextjs
 
 # Copiar artefatos do build
-COPY --from=build /app/public ./public
+# O caractere * no public evita travamento caso a pasta não exista no repositório
+COPY --from=build /app/public* ./public
 COPY --from=build /app/.next .next
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
