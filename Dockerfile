@@ -1,40 +1,45 @@
-# Usar a imagem oficial do Node.js
-FROM node:20-alpine AS base
-
-# Instalar dependências
-FROM base AS install
-RUN apk add --no-cache libc6-compat
+# Usar imagem Node.js baseada em Debian Slim para melhor compatibilidade com binários (sharp, prisma)
+FROM node:20-slim AS base
+ENV NEXT_TELEMETRY_DISABLED=1
 WORKDIR /app
+
+# Estágio de dependências
+FROM base AS deps
+# Instalar ferramentas de build caso alguma dependência precise compilar
+RUN apt-get update && apt-get install -y python3 make g++ openssl && rm -rf /var/lib/apt/lists/*
 COPY package.json package-lock.json ./
-RUN npm ci
+# Usamos install com legacy-peer-deps para evitar erros com React 19/Next 16
+RUN npm install --legacy-peer-deps
 
-# Build do projeto
+# Estágio de build
 FROM base AS build
-WORKDIR /app
-COPY --from=install /app/node_modules ./node_modules
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Variáveis de ambiente para o build
+# Variáveis para o build
 ARG DATABASE_URL
 ENV DATABASE_URL=$DATABASE_URL
-ENV NEXT_TELEMETRY_DISABLED 1
 
+# Gera o client do Prisma e faz o build
 RUN npx prisma generate
 RUN npm run build
 
-# Imagem final de produção
-FROM base AS release
-WORKDIR /app
-ENV NODE_ENV production
+# Estágio final de produção
+FROM base AS runner
+ENV NODE_ENV=production
 
-COPY --from=install /app/node_modules ./node_modules
+# Criar usuário do sistema para segurança
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=build /app/public ./public
 COPY --from=build /app/.next .next
-COPY --from=build /app/public public
-COPY --from=build /app/package.json .
+COPY --from=build /app/node_modules ./node_modules
+COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/prisma ./prisma
 
-# Expor a porta 3000
+USER nextjs
+
 EXPOSE 3000
 
-# Comando para rodar a aplicação
 CMD ["npm", "run", "start"]
