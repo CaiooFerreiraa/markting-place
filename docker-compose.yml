@@ -1,6 +1,6 @@
 services:
   app:
-    image: kaiozyn/achei-facil:latest
+    image: ${DOCKER_IMAGE:-kaiozyn/achei-facil:latest}
     container_name: achei-facil
     restart: always
     expose:
