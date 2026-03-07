@@ -1,54 +1,50 @@
-# 1. Estágio de Build (usando imagem completa para ter todas as ferramentas de compilação)
+# 1. Estágio de Build
 FROM node:20 AS build
 WORKDIR /app
 
-# Desabilitar telemetria do Next.js
+# Desabilitar telemetria e definir ambiente de CI
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV CI=true
 
-# Copiar apenas os arquivos de dependências primeiro (otimiza cache do Docker)
+# Copiar arquivos de definição de pacotes E a pasta prisma
+# Isso é vital porque o npm install dispara o 'prisma generate' (postinstall)
 COPY package.json package-lock.json* ./
+COPY prisma ./prisma/
 
 # Instalar dependências
-# --legacy-peer-deps é necessário pela versão do React 19
-# Usamos loglevel warn para não poluir, mas ver o essencial
-RUN npm install --legacy-peer-deps --loglevel warn
+# --legacy-peer-deps: Necessário para compatibilidade com React 19/Next 16
+# --no-audit --no-fund: Acelera o processo e evita travamentos por rede
+RUN npm install --legacy-peer-deps --no-audit --no-fund
 
-# Copiar o restante do código
+# Agora copiamos o restante do código fonte
 COPY . .
-
-# Gerar o Client do Prisma (essencial antes do build)
-RUN npx prisma generate
 
 # Build da aplicação Next.js
 RUN npm run build
 
-# 2. Estágio de Execução (Runner) - Imagem leve para produção
+# 2. Estágio de Execução (Runner)
 FROM node:20-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Instalar dependências mínimas de sistema (Prisma precisa de openssl)
+# Instalar dependências mínimas de sistema (OpenSSL é obrigatório para o Prisma)
 RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
-# Configurar usuário de sistema (segurança)
+# Configurar usuário de sistema
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# Copiar apenas o estritamente necessário do estágio de build
+# Copiar artefatos do build
 COPY --from=build /app/public ./public
 COPY --from=build /app/.next .next
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./package.json
 COPY --from=build /app/prisma ./prisma
 
-# Garantir permissões corretas (opcional mas recomendado)
-# RUN chown -R nextjs:nodejs /app
-
 USER nextjs
 
 EXPOSE 3000
 
-# O Next.js start roda o servidor de produção
 CMD ["npm", "run", "start"]
