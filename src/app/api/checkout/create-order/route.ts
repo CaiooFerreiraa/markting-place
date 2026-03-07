@@ -5,6 +5,8 @@ import { FulfillmentType, OrderStatus } from "@/types/order";
 import { pluginRegistry } from "@/lib/plugins/registry";
 import { initPlugins } from "@/lib/plugins";
 
+export const dynamic = 'force-dynamic';
+
 // Initialize plugins once
 initPlugins();
 

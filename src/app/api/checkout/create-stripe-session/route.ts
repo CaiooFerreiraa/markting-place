@@ -4,6 +4,8 @@ import { db } from '@/lib/db';
 import { stripe } from '@/lib/stripe';
 import type { StoreOrder, OrderItem, Product, Store, User } from '@/types/order';
 
+export const dynamic = 'force-dynamic';
+
 type StoreOrderWithDetails = StoreOrder & {
   store: Store & {
     user: User;
