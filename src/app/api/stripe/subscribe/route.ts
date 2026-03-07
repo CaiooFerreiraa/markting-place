@@ -3,6 +3,50 @@ import { db } from '@/lib/db';
 import { stripe } from '@/lib/stripe';
 import { NextResponse } from 'next/server';
 
+export const dynamic = 'force-dynamic';
+
+export async function GET(
+  req: Request) {
+  try {
+    const session = await auth();
+
+    if (!session?.user?.id || session.user.role !== 'SELLER') {
+      return new NextResponse('Unauthorized', { status: 401 });
+    }
+
+    const user = await db.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        id: true,
+        email: true,
+        stripeCustomerId: true,
+      },
+    });
+
+    if (!user) {
+      return new NextResponse('User not found', { status: 404 });
+    }
+
+    if (!user.stripeCustomerId) {
+      return new NextResponse('Stripe customer ID not found', { status: 404 });
+    }
+
+    const subscriptions = await stripe.subscriptions.list({
+      customer: user.stripeCustomerId,
+      status: 'active',
+    });
+
+    if (subscriptions.data.length > 0) {
+      return NextResponse.json({ hasActiveSubscription: true });
+    } else {
+      return NextResponse.json({ hasActiveSubscription: false });
+    }
+  } catch (error: any) {
+    console.error('[STRIPE_GET_SUBSCRIPTION]', error);
+    return new NextResponse('Internal Error', { status: 500 });
+  }
+}
+
 export async function POST(req: Request) {
   try {
     const session = await auth();

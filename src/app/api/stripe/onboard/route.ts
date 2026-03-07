@@ -3,6 +3,8 @@ import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export async function POST(req: Request) {
   try {
     const session = await auth();
@@ -61,7 +63,7 @@ export async function POST(req: Request) {
 
     // Create an account link for onboarding
     const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-    
+
     const accountLink = await stripe.accountLinks.create({
       account: stripeAccountId,
       refresh_url: `${baseUrl}/dashboard/seller/settings`,
