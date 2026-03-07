@@ -4,6 +4,8 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { stripe } from "@/lib/stripe";
 
+export const dynamic = 'force-dynamic';
+
 const storeSchema = z.object({
   name: z.string().min(3),
   description: z.string().optional(),
