@@ -19,6 +19,15 @@ RUN npm install --legacy-peer-deps --no-audit --no-fund
 # Agora copiamos o restante do código fonte
 COPY . .
 
+# Variáveis para o build (essenciais para o Next.js coletar dados de página)
+ARG DATABASE_URL
+ARG NEXTAUTH_SECRET=fallback
+ARG NEXT_PUBLIC_API_URL=https://acheifacil.com.br
+
+ENV DATABASE_URL=$DATABASE_URL
+ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Build da aplicação Next.js
 RUN npm run build
 
@@ -34,7 +43,7 @@ RUN apt-get update && apt-get install -y openssl && rm -rf /var/lib/apt/lists/*
 
 # Configurar usuário de sistema
 RUN addgroup --system --gid 1001 nodejs && \
-    adduser --system --uid 1001 nextjs
+  adduser --system --uid 1001 nextjs
 
 # Copiar artefatos do build
 COPY --from=build /app/public ./public

@@ -28,6 +28,8 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/achei-facil:latest
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
+            NEXTAUTH_SECRET=${{ secrets.AUTH_SECRET }}
+            NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
 
   deploy:
     needs: build-and-push
