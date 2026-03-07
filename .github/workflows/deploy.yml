@@ -67,14 +67,21 @@ jobs:
           script: |
             cd ~/achei-facil
             
-            # Limpeza preventiva para evitar "No space left on device"
-            echo "Limpando recursos Docker antigos..."
-            docker container prune -f
-            docker image prune -af
+            # Verificar espaço em disco para debug
+            echo "Verificando espaço em disco..."
+            df -h
+            
+            # Login no Docker Hub para permitir o pull de imagens privadas
+            echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+            # Limpeza agressiva para resolver corrupção de camadas e falta de espaço
+            echo "Realizando limpeza profunda do Docker..."
+            docker system prune -af --volumes
             
             # Criar arquivo .env limpo com as secrets do repo
             printf "DATABASE_URL=${{ secrets.DATABASE_URL }}\n" > .env
             printf "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}\n" >> .env
+            printf "AUTH_SECRET=${{ secrets.AUTH_SECRET }}\n" >> .env
             printf "AUTH_TRUST_HOST=true\n" >> .env
             printf "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}\n" >> .env
             printf "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}\n" >> .env
