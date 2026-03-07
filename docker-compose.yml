@@ -1,0 +1,22 @@
+services:
+  app:
+    image: kaiozyn/achei-facil:latest
+    container_name: achei-facil
+    restart: always
+    expose:
+      - "3000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+      AUTH_SECRET: ${AUTH_SECRET}
+      AUTH_TRUST_HOST: ${AUTH_TRUST_HOST:-true}
+      RESEND_API_KEY: ${RESEND_API_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+    networks:
+      - nginx-proxy-manager_default
+
+networks:
+  nginx-proxy-manager_default:
+    external: true

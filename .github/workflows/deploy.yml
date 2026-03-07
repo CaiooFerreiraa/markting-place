@@ -1,0 +1,91 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/achei-facil:latest
+          build-args: |
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Prepare EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            mkdir -p ~/achei-facil
+            echo "Diretório achei-facil pronto no servidor."
+
+      - name: Copy files to EC2
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "docker-compose.yml"
+          target: "achei-facil"
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/achei-facil
+            
+            # Limpeza preventiva para evitar "No space left on device"
+            echo "Limpando recursos Docker antigos..."
+            docker container prune -f
+            docker image prune -af
+            
+            # Criar arquivo .env limpo com as secrets do repo
+            printf "DATABASE_URL=${{ secrets.DATABASE_URL }}\n" > .env
+            printf "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}\n" >> .env
+            printf "AUTH_SECRET=${{ secrets.AUTH_SECRET }}\n" >> .env
+            printf "AUTH_TRUST_HOST=true\n" >> .env
+            printf "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}\n" >> .env
+            printf "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}\n" >> .env
+            printf "DOCKER_IMAGE=${{ secrets.DOCKERHUB_USERNAME }}/achei-facil:latest\n" >> .env
+            
+            echo "Realizando pull da imagem mais recente..."
+            docker compose pull
+            
+            echo "Removendo containers antigos para evitar conflito..."
+            docker compose down --remove-orphans || true
+            docker rm -f achei-facil || true
+            
+            echo "Subindo aplicação..."
+            docker compose up -d
+            
+            echo "Deploy finalizado. Verifique os logs se a aplicação não subir."
