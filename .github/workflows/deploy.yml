@@ -28,8 +28,9 @@ jobs:
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/achei-facil:latest
           build-args: |
             DATABASE_URL=${{ secrets.DATABASE_URL }}
-            NEXTAUTH_SECRET=${{ secrets.AUTH_SECRET }}
+            NEXTAUTH_SECRET=${{ secrets.NEXTAUTH_SECRET }}
             NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}
+            STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
 
   deploy:
     needs: build-and-push
@@ -74,7 +75,6 @@ jobs:
             # Criar arquivo .env limpo com as secrets do repo
             printf "DATABASE_URL=${{ secrets.DATABASE_URL }}\n" > .env
             printf "NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}\n" >> .env
-            printf "AUTH_SECRET=${{ secrets.AUTH_SECRET }}\n" >> .env
             printf "AUTH_TRUST_HOST=true\n" >> .env
             printf "RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}\n" >> .env
             printf "STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}\n" >> .env
