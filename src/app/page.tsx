@@ -138,7 +138,7 @@ export default async function Home() {
             <p className="text-muted-foreground">Ainda não temos produtos cadastrados. <Link href="/register/seller" className="text-primary hover:underline">Seja o primeiro vendedor!</Link></p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {products.map((product: any) => (
               <Card key={product.id} className="group overflow-hidden border-none shadow-sm hover:shadow-xl transition-all duration-300 bg-background">
                 <Link href={`/product/${product.id}`}>
@@ -163,11 +163,11 @@ export default async function Home() {
                     <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-1">
                       {product.store.name}
                     </p>
-                    <CardTitle className="text-base line-clamp-1 group-hover:text-primary transition-colors">
+                    <CardTitle className="text-sm sm:text-base line-clamp-1 group-hover:text-primary transition-colors">
                       {product.name}
                     </CardTitle>
                     <div className="mt-4 flex items-center justify-between">
-                      <p className="text-lg font-bold">{formatCurrency(Number(product.priceRetail))}</p>
+                      <p className="text-base sm:text-lg font-bold">{formatCurrency(Number(product.priceRetail))}</p>
                       <div className="flex items-center text-xs text-yellow-500 font-bold">
                         <Star className="h-3 w-3 fill-current mr-1" /> 5.0
                       </div>

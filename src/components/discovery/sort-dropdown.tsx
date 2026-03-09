@@ -15,9 +15,9 @@ export function SortDropdown() {
 
   return (
     <div className="flex items-center gap-2">
-      <span className="text-sm font-medium">Ordenar por:</span>
+      <span className="text-sm font-medium hidden sm:inline-block">Ordenar por:</span>
       <Select value={sort ?? 'newest'} onValueChange={setSort}>
-        <SelectTrigger className="w-[180px] h-8 text-sm">
+        <SelectTrigger className="w-[140px] sm:w-[180px] h-9 text-sm">
           <SelectValue placeholder="Ordenar por" />
         </SelectTrigger>
         <SelectContent>
